@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.knoc.mapper.ReplyMapper">
+
+	<select id="list" resultType="Reply">
+		select *
+		from Reply
+		where bno =
+		#{bno}
+		order by rno desc
+	</select>
+
+	<insert id="create">
+		insert into Reply(bno, replytext, replyer)
+		values(#{bno}, #{replytext}, #{replyer})
+	</insert>
+
+	<update id="update">
+		update Reply
+		set replytext = #{replytext}, updatedate
+		= now()
+		where rno = #{rno}
+	</update>
+
+	<delete id="delete">
+		delete from Reply
+		where rno = #{rno}
+	</delete>
+
+	<select id="listPage" resultType="Reply">
+		select *
+		from Reply
+		where bno =
+		#{bno}
+		order by rno desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+
+	<select id="count" resultType="int">
+		select count(rno)
+		from Reply
+		where
+		bno = #{bno}
+	</select>
+	
+	<select id="getBno" resultType="int">
+		select bno 
+		from Reply
+		where rno = #{rno}
+	</select>
+
+</mapper>

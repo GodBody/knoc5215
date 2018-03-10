@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.knoc.mapper.UserMapper">
+
+	<select id="login" resultType="UserVO">
+		select uid, upw, uname, uemail,
+		unickname
+		from
+		tbl_user
+		where uid=#{uid} and upw=#{upw}
+	</select>
+
+	<select id="loginWithUID" resultType="UserVO">
+		select uid, upw, uname,
+		uemail, unickname
+		from
+		tbl_user
+		where uid=#{uid}
+	</select>
+
+	<update id="keepLogin">
+		update tbl_user
+		set sessionkey = #{sessionId},
+		sessionlimit = #{next}
+		where uid=#{uid}
+	</update>
+
+	<select id="checkUserWithSessionKey" resultType="UserVO">
+		select *
+		from
+		tbl_user
+		where sessionKey = #{value} and sessionlimit > now()
+	</select>
+
+	<insert id="insertUser">
+		insert into tbl_user(uid, upw, uname, unickname,
+		uemail)
+		values (#{uid}, #{upw}, #{uname}, #{unickname}, #{uemail})
+	</insert>
+
+	<update id="createAuthKey">
+		update tbl_user
+		set authCode = #{authCode}
+		where uemail
+		= #{uemail}
+	</update>
+
+	<update id="userAuth">
+	<![CDATA[
+		update tbl_user
+		set status = true, authority = "ROLE_USER"
+		where uemail = #{uemail}
+		]]>
+	</update>
+
+	<select id="authCheck" resultType="boolean">
+		select status
+		from tbl_user
+		where uid = #{uid}
+	</select>
+
+	<select id="emailCheck" resultType="int">
+		select count(uemail)
+		from
+		tbl_user
+		where uemail = #{uemail}
+	</select>
+
+	<select id="getUserPw" resultType="String">
+		select upw
+		from tbl_user
+		where
+		uid = #{uid}
+	</select>
+
+	<select id="idSearch" resultType="String">
+		select uid
+		from tbl_user
+		where
+		uname = #{uname} and uemail = #{uemail}
+	</select>
+
+	<select id="checkUserForPW" resultType="int">
+		select count(uemail)
+		from
+		tbl_user
+		where uemail = #{uemail} and uid = #{uid} and uname = #{uname}
+	</select>
+
+	<update id="changePW">
+		update tbl_user
+		set upw = #{upw}
+		where uemail =
+		#{uemail}
+	</update>
+
+	<insert id="sendMessage">
+		insert into tbl_message(sender, receiver, content)
+		values (#{sender}, #{receiver}, #{content})
+	</insert>
+
+	<select id="listMessage" resultType="MessageVO">
+		<![CDATA[
+		select sender, receiver,
+		content, regdate, viewcnt, mno
+		from tbl_message
+		where receiver = #{user.uid}
+		order by regdate desc, mno desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+		]]>
+	</select>
+
+	<delete id="removeMessage">
+		delete from tbl_message
+		where mno = #{mno}
+	</delete>
+
+	<select id="countPaging" resultType="int">
+	<![CDATA[
+		select count(mno)
+		from tbl_message
+	]]>
+	</select>
+
+	<select id="read" resultType="MessageVO">
+		select sender, receiver,
+		content,
+		regdate, viewcnt, mno
+		from
+		tbl_message
+		where mno = #{mno}
+	</select>
+
+	<update id="updateViewCnt">
+		update tbl_message set viewcnt = viewcnt + 1
+		where mno
+		= #{mno}
+	</update>
+
+	<select id="checkExist" resultType="int">
+		select count(uid)
+		from
+		tbl_user
+		where uid = #{receiver}
+	</select>
+
+	<select id="nicknameCheck" resultType="int">
+		select count(unickname)
+		from tbl_user
+		where unickname = #{unickname}
+	</select>
+
+	<update id="updateNickname">
+		update tbl_user
+		set unickname = #{unickname}
+		where uid
+		= #{uid}
+	</update>
+</mapper>
