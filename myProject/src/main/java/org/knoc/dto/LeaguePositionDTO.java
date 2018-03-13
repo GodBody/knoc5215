@@ -7,7 +7,7 @@ public class LeaguePositionDTO {
 	private int losses;
 	private String leagueName;
 	private String playerOrTeamName;
-	private int playerOrTeamId;
+	private long playerOrTeamId;
 	private String tier;
 	private int leaguePoints;
 
@@ -59,11 +59,11 @@ public class LeaguePositionDTO {
 		this.playerOrTeamName = playerOrTeamName;
 	}
 
-	public int getPlayerOrTeamId() {
+	public long getPlayerOrTeamId() {
 		return playerOrTeamId;
 	}
 
-	public void setPlayerOrTeamId(int playerOrTeamId) {
+	public void setPlayerOrTeamId(long playerOrTeamId) {
 		this.playerOrTeamId = playerOrTeamId;
 	}
 

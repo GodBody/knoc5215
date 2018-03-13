@@ -60,6 +60,11 @@
 							<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
 								Menu</a>
 							<h3 class="box-title">Custom 전적검색</h3>
+							<form role="form" method="post">
+									<strong>소환사</strong> : <input type="text" name="summonerName"
+										id="summonerName"> <input type="submit" value="검색"
+										id="submitBtn" placeholder="소환사명...">
+								</form>
 
 						</div>
 						<!-- /.box-header -->
@@ -67,44 +72,119 @@
 						<br>
 
 						<div class="box-body">
-							<div class="table table-striped">
-								<form role="form" method="post">
-									<strong>소환사</strong> : <input type="text" name="summonerName"
-										id="summonerName"> <input type="submit" value="검색"
-										id="submitBtn" placeholder="소환사명...">
-								</form>
-							</div>
-						</div>
+							<table class="table table-striped">
+								<tr>
+									<th>전시즌</th>
+									<th>S8</th>
+									<th>챔피언/이름</th>
+									<th>스펠</th>
+									<th>룬</th>
+									<th>레벨</th>
+									<th>평점</th>
+									<th>아이템</th>
+									<th>골드</th>
+									<th>CS</th>
+									<th>딜량(탱)</th>
+									<th>와드(제거)</th>
+								</tr>
 
-						<div class="box-footer">
-							<div class="table table-striped">
-								
-								<c:if test="${sessionScope.summonerVO ne null }">
-									<img id="srcTag" width="50px;" height="50px;"
-										src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon"+ ${summonerVO.profileIconId} + ".jpg">
-									<span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>${summonerVO.name }</strong>
-										(Lv. ${summonerVO.summonerLevel}) / ${summonerVO.tier}
-										${summonerVO.rank } : ${summonerVO.leaguePoints }pt /
-										${summonerVO.wins }승 ${summonerVO.losses }패 /
-										${summonerVO.accountId }
-									</span>
-									<form id="view" role="form"
-										action="<c:url value = "/lol/viewMatch"/>" method="get">
-										<input type="hidden" name="summonerId"
-											value="${summonerVO.accountId }"> <input
-											type="submit" value="전적">
-									</form>
-								</c:if>
-
-								<c:forEach items="${list}" var="matchVO">
-									챔피언 : ${matchVO.champion } /  게임 번호: ${matchVO.gameId } <br/>
-									<form role="form" method="post">
-									<input type="hidden" name="gameId" value="${matchVO.gameId }">
-									<input type="submit" value="게임 조회">
-									</form>
+								<c:forEach items="${playerList}" var="player" begin="0" end="4">
+									<tr style="background: #D4E4FE;">
+										<td>${player.highestAchievedSeasonTier }</td>
+										<td>${player.tier }-${player.rank }</td>
+										<td><img width="30px" height="30px"
+											src="http://z.fow.kr/champ/<c:url value="${player.championId}"/>.png" />${player.summonerName}</td>
+										<td><img width="20px" height="20px"
+											src="http://z.fow.kr/spell/<c:url value="${player.spell1Id}"/>.png" /><img
+											width="20px" height="20px"
+											src="http://z.fow.kr/spell/<c:url value="${player.spell2Id}"/>.png" /></td>
+										<td><img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/perk/<c:url value="${player.perk0}"/>.png" /><img
+											width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/perkStyle/<c:url value="${player.perkSubStyle}"/>.png" /></td>
+										<td>${player.champLevel}</td>
+										<td>${player.kills}/${player.deaths}/${player.assists}</td>
+										<td><img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item0}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item1}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item2}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item3}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item4}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item5}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item6}"/>.png" />
+										</td>
+										<td>${player.goldEarned}</td>
+										<td>${player.totalMinionsKilled}(${player.neutralMinionsKilled })</td>
+										<td>${player.totalDamageDealtToChampions}(${player.totalDamageTaken})</td>
+										<td>${player.wardsPlaced}/${player.wardsKilled }</td>
+									</tr>
 								</c:forEach>
-							</div>
+
+
+							</table>
+							<table class="table table-striped">
+								<tr>
+									<th>전시즌</th>
+									<th>S8</th>
+									<th>챔피언/이름</th>
+									<th>스펠</th>
+									<th>룬</th>
+									<th>레벨</th>
+									<th>평점</th>
+									<th>아이템</th>
+									<th>골드</th>
+									<th>CS</th>
+									<th>딜량(탱)</th>
+									<th>와드(제거)</th>
+								</tr>
+
+								<c:forEach items="${playerList}" var="player" begin="5" end="9">
+									<tr style="background: #FFEEEE;">
+										<td>${player.highestAchievedSeasonTier }</td>
+										<td>${player.tier }-${player.rank }</td>
+										<td><img width="30px" height="30px"
+											src="http://z.fow.kr/champ/<c:url value="${player.championId}"/>.png" />${player.summonerName}</td>
+										<td><img width="20px" height="20px"
+											src="http://z.fow.kr/spell/<c:url value="${player.spell1Id}"/>.png" /><img
+											width="20px" height="20px"
+											src="http://z.fow.kr/spell/<c:url value="${player.spell2Id}"/>.png" /></td>
+										<td><img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/perk/<c:url value="${player.perk0}"/>.png" /><img
+											width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/perkStyle/<c:url value="${player.perkSubStyle}"/>.png" /></td>
+										<td>${player.champLevel}</td>
+										<td>${player.kills}/${player.deaths}/${player.assists}</td>
+										<td><img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item0}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item1}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item2}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item3}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item4}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item5}"/>.png" />
+											<img width="20px" height="20px"
+											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item6}"/>.png" />
+										</td>
+										<td>${player.goldEarned}</td>
+										<td>${player.totalMinionsKilled}(${player.neutralMinionsKilled })</td>
+										<td>${player.totalDamageDealtToChampions}(${player.totalDamageTaken})</td>
+										<td>${player.wardsPlaced}/${player.wardsKilled }</td>
+									</tr>
+								</c:forEach>
+							</table>
 						</div>
+
+						<div class="box-footer"></div>
 						<!--  /.box-body -->
 					</div>
 					<!--  /.box-primary -->

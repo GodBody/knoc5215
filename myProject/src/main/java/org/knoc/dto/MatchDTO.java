@@ -9,6 +9,26 @@ public class MatchDTO {
 	private List<ParticipantIdentityDTO> participantIdentities;
 	private List<TeamStatsDTO> teams;
 	private List<ParticipantDTO> participants;
+	private long gameCreation;
+	private long gameDuration;
+	
+	
+
+	public long getGameCreation() {
+		return gameCreation;
+	}
+
+	public void setGameCreation(long gameCreation) {
+		this.gameCreation = gameCreation;
+	}
+
+	public long getGameDuration() {
+		return gameDuration;
+	}
+
+	public void setGameDuration(long gameDuration) {
+		this.gameDuration = gameDuration;
+	}
 
 	public int getSeasonId() {
 		return seasonId;
@@ -62,7 +82,7 @@ public class MatchDTO {
 	public String toString() {
 		return "MatchDTO [seasonId=" + seasonId + ", queueId=" + queueId + ", gameId=" + gameId
 				+ ", participantIdentities=" + participantIdentities + ", teams=" + teams + ", participants="
-				+ participants + "]";
+				+ participants + ", gameCreation=" + gameCreation + ", gameDuration=" + gameDuration + "]";
 	}
 
 }

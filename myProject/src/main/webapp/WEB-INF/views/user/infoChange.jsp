@@ -36,6 +36,7 @@
 					href="http://localhost:8080/user/home"> Start Bootstrap </a></li>
 				<li><a href="http://localhost:8080/uboard/list">공지사항</a></li>
 				<li><a href="http://localhost:8080/sboard/list">자유게시판</a></li>
+				<li><a href="http://localhost:8080/lol/infoPage">전적검색</a></li>
 				<c:choose>
 					<c:when test="${sessionScope.login eq null}">
 						<li id="loginModalBtn"><a href="#">로그인</a></li>

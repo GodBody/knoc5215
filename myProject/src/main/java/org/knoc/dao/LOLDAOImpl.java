@@ -1,6 +1,8 @@
 package org.knoc.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -34,30 +36,39 @@ public class LOLDAOImpl implements LOLDAO {
 	@Override
 	public SummonerVO selectUserInfo(String summonerName) {
 		// TODO Auto-generated method stub
-		return session.selectOne(namespace+".selectUserInfo", summonerName);
+		return session.selectOne(namespace + ".selectUserInfo", summonerName);
 	}
 
 	@Override
 	public int checkDuplicate(long id) {
 		// TODO Auto-generated method stub
-		return session.selectOne(namespace+".checkDuplicate", id);
+		return session.selectOne(namespace + ".checkDuplicate", id);
 	}
 
 	@Override
 	public void updateUser(SummonerDTO dto) {
 		// TODO Auto-generated method stub
-		session.update(namespace+".updateUser", dto);
+		session.update(namespace + ".updateUser", dto);
 	}
 
 	@Override
 	public void insertMatch(MatchReferenceDTO matchReferenceDTO) {
 		// TODO Auto-generated method stub
-		session.insert(namespace+".insertMatch", matchReferenceDTO);
+		session.insert(namespace + ".insertMatch", matchReferenceDTO);
 	}
 
 	@Override
-	public List<MatchReferenceDTO> getMatchList(int summonerId) {
+	public List<MatchReferenceDTO> getMatchList(long summonerId) {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace+".getMatchList", summonerId);
+		return session.selectList(namespace + ".getMatchList", summonerId);
+	}
+
+	@Override
+	public void insertMatchTableJSON(String json, long gameId) {
+		// TODO Auto-generated method stub
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("json", json);
+		paramMap.put("gameId", gameId);
+		session.insert(namespace + ".insertMatchTableJSON", paramMap);
 	}
 }
