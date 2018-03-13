@@ -9,11 +9,12 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Starter</title>
-
 <!-- jQuery -->
-<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <!-- Bootstrap core CSS -->
+<link
+	href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css" />"
+	rel="stylesheet">
 <link
 	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -67,7 +68,7 @@ input:focus::-ms-input-placeholder {
 					href="http://localhost:8080/user/home"> Start Bootstrap </a></li>
 				<li><a href="http://localhost:8080/uboard/list">공지사항</a></li>
 				<li><a href="http://localhost:8080/sboard/list">자유게시판</a></li>
-				<li><a href="http://localhost:8080/lol/infoPage">전적검색</a></li>
+				<li><a href="http://localhost:8080/lol/infoPageStart">전적검색</a></li>
 				<c:choose>
 					<c:when test="${sessionScope.login eq null}">
 						<li id="loginModalBtn"><a href="#">로그인</a></li>
@@ -88,12 +89,16 @@ input:focus::-ms-input-placeholder {
 		<div id="page-content-wrapper">
 			<div class="container-fluid">
 				<div class="col-md-16">
+				
 					<div class="box box-primary">
-						<div class="box-header with-border">
+					
+						<div class="box-header">
 							<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
-					Menu</a>
+								Menu</a>
 							<h3 class="box-title">공지사항</h3>
+
 						</div>
+						
 						<div class="box-body">
 
 							<div class='box-body'>
@@ -236,17 +241,16 @@ input:focus::-ms-input-placeholder {
 			alert("게시글 업데이트 완료.");
 			self.location = "/uboard/list";
 		});
-		<!-- Menu Toggle Script -->
-			$("#menu-toggle").click(function(e) {
-				e.preventDefault();
-				$("#wrapper").toggleClass("toggled");
-			});			
+		<!-- Menu Toggle Script --> 
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+		
 		<!-- Modal Action -->
-			$(document).ready(function() {
-				$("#loginModalBtn").click(function() {
-					$("#loginModal").modal();
-				});
-			});
+		$("#loginModalBtn").click(function() {
+			$("#loginModal").modal();
+		});
 	</script>
 </body>
 </html>

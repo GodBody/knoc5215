@@ -71,4 +71,18 @@ public class LOLDAOImpl implements LOLDAO {
 		paramMap.put("gameId", gameId);
 		session.insert(namespace + ".insertMatchTableJSON", paramMap);
 	}
+
+	@Override
+	public String getMatchSummary(long gameId) {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".getMatchSummary", gameId);
+	}
+
+	@Override
+	public int checkDuplicateMatchTableData(long gameId) {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".checkDuplicateMatchTableData", gameId);
+	}
+	
+	
 }

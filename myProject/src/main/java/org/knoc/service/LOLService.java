@@ -20,13 +20,13 @@ public interface LOLService {
 	public List<MatchReferenceDTO> getMatchList(int summonerId);
 
 	public List<MatchReferenceDTO> insertMatchInfo(long accountId);
-	
-	public PlayerVO[] getMatchInfo(long gameId);
 
-	public String spellImage(int spell1Id);
+	public PlayerVO[] getMatchInfo(long gameId);
 
 	public List<TeamStatsDTO> getTeamStats(long gameId);
 
 	public void insertMathTableData(long gameId);
+
+	public PlayerVO getMatchSummory(long gameId, String summonerName);
 
 }

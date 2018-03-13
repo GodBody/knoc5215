@@ -29,6 +29,8 @@ public class ParticipantStatsDTO {
 	private int item6;
 	
 	
+	
+	
 
 	public int getPerk0() {
 		return perk0;

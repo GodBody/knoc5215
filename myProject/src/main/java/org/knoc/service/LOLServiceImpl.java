@@ -46,7 +46,7 @@ public class LOLServiceImpl implements LOLService {
 		headers.set("User-Agent",
 				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML,like Gecko) Chrome/64.0.3282.186 Safari/537.36");
 		headers.set("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
-		headers.set("X-Riot-Token", "RGAPI-06a80cea-0801-4ed0-8ee2-b737f71f28ac");
+		headers.set("X-Riot-Token", "RGAPI-ab476e8f-a071-4d9e-9105-2847e5389347");
 
 		return new HttpEntity<T>(headers);
 
@@ -157,22 +157,6 @@ public class LOLServiceImpl implements LOLService {
 
 	}
 
-	@Override
-	public String spellImage(int spell1Id) {
-		// TODO Auto-generated method stub
-		// logger.info("INTO spellImage SERVICE..." + spell1Id);
-		String api = "https://kr.api.riotgames.com/lol/static-data/v3/summoner-spells/" + spell1Id
-				+ "?locale=ko_KR&spellData=image&tags=image";
-
-		HttpEntity<SummonerSpellDTO> requestEn = setHeaders();
-		ResponseEntity<SummonerSpellDTO> responseEn = restTemplate.exchange(api, HttpMethod.GET, requestEn,
-				SummonerSpellDTO.class);
-
-		SummonerSpellDTO spellDTO = responseEn.getBody();
-		logger.info(spellDTO.toString());
-
-		return spellDTO.getImage().getFull();
-	}
 
 	@Override
 	public void insertSoloRankInfo(LeaguePositionDTO dto_SOLO) {
@@ -253,12 +237,13 @@ public class LOLServiceImpl implements LOLService {
 			// System.out.println(i + "번째 소환사 : " + map2.get(i));
 		}
 
-		List<Map<Integer, Object>> gameMapList = new ArrayList<Map<Integer, Object>>();
-
-		gameMapList.add(map);
-		gameMapList.add(map2);
-
-		logger.info("Controller로 보낼 객체 : " + gameMapList.toString());
+//		List<Map<Integer, Object>> gameMapList = new ArrayList<Map<Integer, Object>>();
+//
+//		gameMapList.add(map);
+//		gameMapList.add(map2);
+//
+//		logger.info("Controller로 보낼 객체 : " + gameMapList.toString());
+		
 		PlayerVO[] vo = new PlayerVO[10];
 		for (int i = 0; i < 10; i++) {
 
@@ -269,6 +254,8 @@ public class LOLServiceImpl implements LOLService {
 			vo[i].setAccountId(player.get(i).getAccountId());
 			vo[i].setTeamId(participant.get(i).getTeamId());
 
+			vo[i].setWin(participant.get(i).getStats().isWin());
+			
 			vo[i].setParticipantId(participant.get(i).getParticipantId());
 			vo[i].setHighestAchievedSeasonTier(participant.get(i).getHighestAchievedSeasonTier());
 			vo[i].setChampionId(participant.get(i).getChampionId());
@@ -337,14 +324,78 @@ public class LOLServiceImpl implements LOLService {
 		ResponseEntity<MatchDTO> resEntity = restTemplate.exchange(api, HttpMethod.GET, reqEntity, MatchDTO.class);
 
 		MatchDTO match = resEntity.getBody();
-		
+
 		Gson gson = new Gson();
-		
+
 		String json = gson.toJson(match);
-		
-		dao.insertMatchTableJSON(json, gameId);
-		
-		
+
+		int count = dao.checkDuplicateMatchTableData(gameId);
+
+		if (count < 1) {
+			dao.insertMatchTableJSON(json, gameId);
+		} else {
+			return;
+		}
+
+	}
+
+	@Override
+	public PlayerVO getMatchSummory(long gameId, String summonerName) { 
+		// TODO Auto-generated method stub
+		logger.info("INTO getMatchSummary...SERVICE");
+
+		String summary = dao.getMatchSummary(gameId);
+		logger.info("Summary by gameId " + gameId + " = " + summary.toString());
+
+		Gson gson = new Gson();
+		MatchDTO convert = gson.fromJson(summary, MatchDTO.class);
+		logger.info("Convert from JSON toMatchDTO : " + convert.toString());
+		PlayerVO vo = new PlayerVO();
+
+		List<ParticipantIdentityDTO> pIden = convert.getParticipantIdentities();
+		int index = 0;
+		for (int i = 0; i < pIden.size(); i++) {
+			logger.info("pIden[" + i + "] 소환사 이름 : " + pIden.get(i).getPlayer().getSummonerName());
+			if ((pIden.get(i).getPlayer().getSummonerName()).equals(summonerName)) {
+				index = i;
+				break;
+			}
+		}
+		logger.info("인덱스 : " + index);
+
+		vo.setGameId(gameId);
+		vo.setSummonerName(pIden.get(index).getPlayer().getSummonerName());
+		vo.setSummonerId(pIden.get(index).getPlayer().getSummonerId());
+
+		vo.setKills(convert.getParticipants().get(index).getStats().getKills());
+		vo.setDeaths(convert.getParticipants().get(index).getStats().getDeaths());
+		vo.setAssists(convert.getParticipants().get(index).getStats().getAssists());
+
+		vo.setWin(convert.getParticipants().get(index).getStats().isWin());
+
+		vo.setChampionId(convert.getParticipants().get(index).getChampionId());
+		vo.setChampLevel(convert.getParticipants().get(index).getStats().getChampLevel());
+
+		vo.setTotalMinionsKilled(convert.getParticipants().get(index).getStats().getTotalMinionsKilled());
+		vo.setNeutralMinionsKilled(convert.getParticipants().get(index).getStats().getNeutralMinionsKilled());
+		vo.setTotalDamageDealtToChampions(convert.getParticipants().get(index).getStats().getTotalDamageDealtToChampions());
+		vo.setSpell1Id(convert.getParticipants().get(index).getSpell1Id());
+		vo.setSpell2Id(convert.getParticipants().get(index).getSpell2Id());
+
+		vo.setPerk0(convert.getParticipants().get(index).getStats().getPerk0());
+		vo.setPerkSubStyle(convert.getParticipants().get(index).getStats().getPerkSubStyle());
+
+		vo.setItem0(convert.getParticipants().get(index).getStats().getItem0());
+		vo.setItem1(convert.getParticipants().get(index).getStats().getItem1());
+		vo.setItem2(convert.getParticipants().get(index).getStats().getItem2());
+		vo.setItem3(convert.getParticipants().get(index).getStats().getItem3());
+		vo.setItem4(convert.getParticipants().get(index).getStats().getItem4());
+		vo.setItem5(convert.getParticipants().get(index).getStats().getItem5());
+		vo.setItem6(convert.getParticipants().get(index).getStats().getItem6());
+
+		logger.info("vo : " + vo.toString());
+
+		return vo;
 	}
 
 }

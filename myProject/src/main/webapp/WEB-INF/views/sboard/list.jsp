@@ -50,7 +50,7 @@
 					href="http://localhost:8080/user/home"> Start Bootstrap </a></li>
 				<li><a href="http://localhost:8080/uboard/list">공지사항</a></li>
 				<li><a href="http://localhost:8080/sboard/list">자유게시판</a></li>
-				<li><a href="http://localhost:8080/lol/infoPage">전적검색</a></li>
+				<li><a href="http://localhost:8080/lol/infoPageStart">전적검색</a></li>
 				<c:choose>
 					<c:when test="${sessionScope.login eq null}">
 						<li id="loginModalBtn"><a href="#">로그인</a></li>
@@ -73,7 +73,7 @@
 					<div class="box box-primary">
 						<div class="box-header with-border">
 							<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
-					Menu</a>
+								Menu</a>
 							<h3 class="box-title">자유게시판</h3>
 						</div>
 						<div class="box-body">
@@ -242,23 +242,7 @@
 	
 		
 		$(document).ready(
-				
-				var result = '${msg}';
-				if (result == 'SUCCESS') {
-					alert("Complete!");
-				}
-				
-				<!-- Menu Toggle Script --> 
-				$("#menu-toggle").click(function(e) {
-					e.preventDefault();
-					$("#wrapper").toggleClass("toggled");
-				});
-				
-				<!-- Modal Action -->
-				
-				$("#loginModalBtn").click(function() {
-					$("#loginModal").modal();
-				});
+								
 				function() {
 
 					$('#searchBtn').on(

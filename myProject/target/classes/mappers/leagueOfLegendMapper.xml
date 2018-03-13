@@ -36,6 +36,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		tbl_game
 		where id = #{id}
 	</select>
+	
+	<select id="checkDuplicateMatchTableData" resultType="int">
+		select count(matchId)
+		from tbl_matchJSON
+		where matchId = #{gameId}
+	</select>
 
 	<update id="updateUser">
 		update tbl_game
@@ -63,4 +69,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values
 		(#{gameId}, #{json})
 	</insert>
+	
+	<select id="getMatchSummary" resultType="string">
+		select json
+		from tbl_matchJSON
+		where matchId = #{gameId}
+	</select>
 </mapper>

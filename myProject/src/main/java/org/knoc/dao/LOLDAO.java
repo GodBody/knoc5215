@@ -25,4 +25,8 @@ public interface LOLDAO {
 
 	public void insertMatchTableJSON(String json, long gameId);
 
+	public String getMatchSummary(long gameId);
+
+	public int checkDuplicateMatchTableData(long gameId);
+
 }

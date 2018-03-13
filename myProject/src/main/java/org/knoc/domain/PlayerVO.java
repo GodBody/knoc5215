@@ -3,6 +3,16 @@ package org.knoc.domain;
 import java.util.List;
 
 public class PlayerVO {
+	private long gameId;
+	
+	public long getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(long gameId) {
+		this.gameId = gameId;
+	}
+
 	private String summonerName;
 	private long summonerId;
 	private long accountId;
@@ -335,10 +345,10 @@ public class PlayerVO {
 
 	@Override
 	public String toString() {
-		return "PlayerVO [summonerName=" + summonerName + ", summonerId=" + summonerId + ", accountId=" + accountId
-				+ ", teamId=" + teamId + ", tier=" + tier + ", rank=" + rank + ", participantId=" + participantId
-				+ ", highestAchievedSeasonTier=" + highestAchievedSeasonTier + ", championId=" + championId
-				+ ", spell1Id=" + spell1Id + ", spell2Id=" + spell2Id + ", win=" + win
+		return "PlayerVO [gameId=" + gameId + ", summonerName=" + summonerName + ", summonerId=" + summonerId
+				+ ", accountId=" + accountId + ", teamId=" + teamId + ", tier=" + tier + ", rank=" + rank
+				+ ", participantId=" + participantId + ", highestAchievedSeasonTier=" + highestAchievedSeasonTier
+				+ ", championId=" + championId + ", spell1Id=" + spell1Id + ", spell2Id=" + spell2Id + ", win=" + win
 				+ ", totalDamageDealtToChampions=" + totalDamageDealtToChampions + ", totalDamageTaken="
 				+ totalDamageTaken + ", totalMinionsKilled=" + totalMinionsKilled + ", neutralMinionsKilled="
 				+ neutralMinionsKilled + ", goldEarned=" + goldEarned + ", kills=" + kills + ", deaths=" + deaths

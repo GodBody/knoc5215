@@ -47,12 +47,12 @@
 						<li><a href="http://localhost:8080/user/logout">로그아웃</a></li>
 					</c:when>
 				</c:choose>
-			</ul>
+			</ul>	
 		</div>
 		<!-- /#sidebar-wrapper -->
 		<div id="page-content-wrapper">
 			<div class="container-fluid">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<!-- general form elements -->
 
 					<div class="box box-primary">
@@ -62,63 +62,157 @@
 								Menu</a>
 							<h3 class="box-title">전적검색</h3>
 
-						</div>
-						<!-- /.box-header -->
-
-						<br>
-
-						<div class="box-body">
 							<div class="table table-striped">
-								<form role="form" method="post">
+								<form role="form" method="get">
 									<strong>소환사</strong> : <input type="text" name="summonerName"
 										id="summonerName"> <input type="submit" value="검색"
 										id="submitBtn" placeholder="소환사명...">
 								</form>
 							</div>
-						</div>
 
-						<div class="box-footer">
-							<div class="table">
+							<div class="info">
 
 								<c:if test="${summonerVO ne null }">
 									<c:set var="summonerVO" value="${summonerVO}" scope="session" />
 
 									<!-- <img id="srcTag" width="50px;" height="50px;"
 										src=""> -->
-									<img id="srcTag" width="50px;" height="50px;"
+									<img id="srcTag" width="30px;" height="30px;"
 										src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon<c:url value="${summonerVO.profileIconId }"/>.jpg" />
 									<span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>${summonerVO.name }</strong>
 										(Lv. ${summonerVO.summonerLevel}) / ${summonerVO.tier}
 										${summonerVO.rank } : ${summonerVO.leaguePoints }pt /
 										${summonerVO.wins }승 ${summonerVO.losses }패 /
-										${summonerVO.accountId }
+										${summonerVO.accountId } / 최근 20전 <strong>${winCnt}</strong>승
+
 									</span>
 								</c:if>
 							</div>
-							<div>
-								<table>
-									<c:forEach items="${list}" var="matchVO">
-										<tr>
-											<td><img width="30px" height="30px"
-												src="http://z.fow.kr/champ/<c:url value="${matchVO.champion}"/>.png" /></td>
-											<td>
-												<form role="form" action="<c:url value = "/lol/viewMatch"/>"
-													method="get">
-													<input type="hidden" name="gameId"
-														value="${matchVO.gameId }">
-													<!-- <input type="submit" value="게임 조회"> -->
-													<button
-														onclick="window.open('<c:url value = "/lol/viewMatch?gameId="/> + ${matchVO.gameId }','_blank');"
-														type="button" value="게임 조회">상세</button>
-												</form>
-											</td>
 
-										</tr>
-									</c:forEach>
-								</table>
-							</div>
+						</div>
+						<!-- /.box-header -->
+
+						<br>
+
+						<div class="box-body">
+							<table class="table table-striped">
+								<tr>
+									<th>결과</th>
+									<th>챔피언</th>
+									<th>스펠</th>
+									<th>룬</th>
+									<th>레벨</th>
+									<th>KDA</th>
+									<th>아이템</th>
+									<th>CS</th>
+									<th>분석</th>
+								</tr>
+
+								<c:forEach items="${voList}" var="player">
+									<c:choose>
+										<c:when test="${player.win eq true }">
+											<tr style="background: #D4E4FE;">
+												<td>승리</td>
+												<td><img width="30px" height="30px"
+													src="http://z.fow.kr/champ/<c:url value="${player.championId}"/>.png" /></td>
+
+												<td><img width="20px" height="20px"
+													src="http://z.fow.kr/spell/<c:url value="${player.spell1Id}"/>.png" /><img
+													width="20px" height="20px"
+													src="http://z.fow.kr/spell/<c:url value="${player.spell2Id}"/>.png" /></td>
+												<td><img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/perk/<c:url value="${player.perk0}"/>.png" /><img
+													width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/perkStyle/<c:url value="${player.perkSubStyle}"/>.png" /></td>
+												<td>${player.champLevel}&nbsp;&nbsp;</td>
+												<td>${player.kills}/${player.deaths}/${player.assists}</td>
+												<td><img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item0}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item1}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item2}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item3}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item4}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item5}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item6}"/>.png" />
+												</td>
+												<td>${player.totalMinionsKilled}(${player.neutralMinionsKilled })</td>
+												<td>
+													<form role="form"
+														action="<c:url value = "/lol/viewMatch"/>" method="get">
+														<input type="hidden" name="gameId"
+															value="${player.gameId }"> 
+															<input type="hidden"
+															name="summonerId" value="${player.summonerId }">
+														<!-- <input type="submit" value="게임 조회"> -->
+														<%-- <button
+															onclick="window.open('<c:url value = "/lol/viewMatch?gameId="/> + ${player.gameId }','_blank');"
+															type="button" value="게임 조회">상세</button> --%>
+																<input type="submit" value="상세">
+													</form>
+												</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<tr style="background: #FFEEEE;">
+												<td>패배</td>
+												<td><img width="30px" height="30px"
+													src="http://z.fow.kr/champ/<c:url value="${player.championId}"/>.png" /></td>
+
+												<td><img width="20px" height="20px"
+													src="http://z.fow.kr/spell/<c:url value="${player.spell1Id}"/>.png" /><img
+													width="20px" height="20px"
+													src="http://z.fow.kr/spell/<c:url value="${player.spell2Id}"/>.png" /></td>
+												<td><img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/perk/<c:url value="${player.perk0}"/>.png" /><img
+													width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/perkStyle/<c:url value="${player.perkSubStyle}"/>.png" /></td>
+												<td>${player.champLevel}&nbsp;&nbsp;</td>
+												<td>${player.kills}/${player.deaths}/${player.assists}</td>
+												<td><img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item0}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item1}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item2}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item3}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item4}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item5}"/>.png" />
+													<img width="20px" height="20px"
+													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item6}"/>.png" />
+												</td>
+												<td>${player.totalMinionsKilled}(${player.neutralMinionsKilled })</td>
+												<td>
+													<form role="form"
+														action="<c:url value = "/lol/viewMatch"/>" method="get">
+														<input type="hidden" name="gameId"
+															value="${player.gameId }">
+															<input type="hidden"
+															name="summonerId" value="${player.summonerId }">
+														<!-- <input type="submit" value="게임 조회"> -->
+													<%-- 	<button
+															onclick="window.open('<c:url value = "/lol/viewMatch?gameId="/> + ${player.gameId }','_blank');"
+															type="button" value="게임 조회">상세</button> --%>
+															<input type="submit" value="상세">
+													</form>
+												</td>
+											</tr>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</table>
 						</div>
 						<!--  /.box-body -->
+						<div class="box-footer"></div>
+						<!--  /.box-footer -->
 					</div>
 					<!--  /.box-primary -->
 				</div>
@@ -194,6 +288,11 @@
 	$("#loginModalBtn").click(function() {
 		$("#loginModal").modal();
 	});
+	
+	function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 		var result = "${result}";
 		if (result == 'success') {
 			alert("소환사의 정보가 등록되었습니다.");
