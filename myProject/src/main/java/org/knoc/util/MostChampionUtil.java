@@ -4,8 +4,11 @@ import org.knoc.domain.PlayerVO;
 import org.knoc.dto.MostChampionSummaryDTO;
 
 public class MostChampionUtil {
-
+	/*
+	 * 최근 20경기 중 가장 많이 한 챔피언에 대한 정보를 추출하는 함수 최빈값 알고리즘 응용 최빈값 3개를 구한다
+	 */
 	public static MostChampionSummaryDTO[] getSummary(PlayerVO[] voList) {
+
 		int mode = 0;
 		int[] counter = new int[498];
 		int max = Integer.MIN_VALUE;
@@ -25,18 +28,20 @@ public class MostChampionUtil {
 		int[] counter2 = new int[498];
 
 		for (int i = 0; i < voList.length; i++) {
-			if (i == 99)
+			if (i == mode)
 				continue;
-
-			counter2[voList[i].getChampionId()]++;
+			else
+				counter2[voList[i].getChampionId()]++;
 		}
 		for (int i = 0; i < counter2.length; i++) {
-			if (i == 99)
+			if (i == mode)
 				continue;
 
-			if (max2 < counter2[i]) {
-				max2 = counter2[i];
-				mode2 = i;
+			else {
+				if (max2 < counter2[i]) {
+					max2 = counter2[i];
+					mode2 = i;
+				}
 			}
 		}
 
@@ -45,18 +50,19 @@ public class MostChampionUtil {
 		int[] counter3 = new int[498];
 
 		for (int i = 0; i < voList.length; i++) {
-			if (i == 99 || i == 154)
+			if (i == mode || i == mode2)
 				continue;
-
-			counter3[voList[i].getChampionId()]++;
+			else
+				counter3[voList[i].getChampionId()]++;
 		}
 		for (int i = 0; i < counter3.length; i++) {
-			if (i == 99 || i == 154)
+			if (i == mode || i == mode2)
 				continue;
-
-			if (max3 < counter3[i]) {
-				max3 = counter3[i];
-				mode3 = i;
+			else {
+				if (max3 < counter3[i]) {
+					max3 = counter3[i];
+					mode3 = i;
+				}
 			}
 		}
 
@@ -81,6 +87,7 @@ public class MostChampionUtil {
 		float kda3 = 0;
 
 		for (int i = 0; i < voList.length; i++) {
+
 			if (voList[i].getChampionId() == mode) {
 				modeDeal[modeDealIdx] = voList[i].getTotalDamageDealtToChampions();
 				modeDealIdx++;
@@ -91,29 +98,42 @@ public class MostChampionUtil {
 				}
 				if (voList[i].isWin() == true) {
 					win++;
-
 				}
-			} else if (voList[i].getChampionId() == mode2) {
-				modeDeal2[modeDealIdx2] = voList[i].getTotalDamageDealtToChampions();
-				modeDealIdx2++;
-				if (voList[i].getDeaths() == 0) {
-					kda2 = (float) (kda2 + (voList[i].getKills() + voList[i].getAssists()) * 1.2);
-				} else {
-					kda2 = kda2 + (voList[i].getKills() + voList[i].getAssists()) / voList[i].getDeaths();
+			}
+		}
+		for (int i = 0; i < voList.length; i++) {
+			if (i == mode)
+				continue;
+			else {
+				if (voList[i].getChampionId() == mode2) {
+					modeDeal2[modeDealIdx2] = voList[i].getTotalDamageDealtToChampions();
+					modeDealIdx2++;
+					if (voList[i].getDeaths() == 0) {
+						kda2 = (float) (kda2 + (voList[i].getKills() + voList[i].getAssists()) * 1.2);
+					} else {
+						kda2 = kda2 + (voList[i].getKills() + voList[i].getAssists()) / voList[i].getDeaths();
+					}
+					if (voList[i].isWin() == true) {
+						win2++;
+					}
 				}
-				if (voList[i].isWin() == true) {
-					win2++;
-				}
-			} else if (voList[i].getChampionId() == mode3) {
-				modeDeal3[modeDealIdx3] = voList[i].getTotalDamageDealtToChampions();
-				modeDealIdx3++;
-				if (voList[i].getDeaths() == 0) {
-					kda3 = (float) (kda3 + (voList[i].getKills() + voList[i].getAssists()) * 1.2);
-				} else {
-					kda3 = kda3 + (voList[i].getKills() + voList[i].getAssists()) / voList[i].getDeaths();
-				}
-				if (voList[i].isWin() == true) {
-					win3++;
+			}
+		}
+		for (int i = 0; i < voList.length; i++) {
+			if (i == mode || i == mode2)
+				continue;
+			else {
+				if (voList[i].getChampionId() == mode3) {
+					modeDeal3[modeDealIdx3] = voList[i].getTotalDamageDealtToChampions();
+					modeDealIdx3++;
+					if (voList[i].getDeaths() == 0) {
+						kda3 = (float) (kda3 + (voList[i].getKills() + voList[i].getAssists()) * 1.2);
+					} else {
+						kda3 = kda3 + (voList[i].getKills() + voList[i].getAssists()) / voList[i].getDeaths();
+					}
+					if (voList[i].isWin() == true) {
+						win3++;
+					}
 				}
 			}
 
@@ -144,7 +164,7 @@ public class MostChampionUtil {
 		most.setWin(win);
 		most.setFrequency(max);
 		most.setLosses();
-		most.setKdaRatio(kda/max);
+		most.setKdaRatio(kda / max);
 		most.setDealingList(modeDeal);
 
 		MostChampionSummaryDTO most2 = new MostChampionSummaryDTO();
@@ -152,7 +172,7 @@ public class MostChampionUtil {
 		most2.setWin(win2);
 		most2.setFrequency(max2);
 		most2.setLosses();
-		most2.setKdaRatio(kda2/max2);
+		most2.setKdaRatio(kda2 / max2);
 		most2.setDealingList(modeDeal2);
 
 		MostChampionSummaryDTO most3 = new MostChampionSummaryDTO();
@@ -160,7 +180,7 @@ public class MostChampionUtil {
 		most3.setWin(win3);
 		most3.setFrequency(max3);
 		most3.setLosses();
-		most3.setKdaRatio(kda3/max2);
+		most3.setKdaRatio(kda3 / max2);
 		most3.setDealingList(modeDeal3);
 
 		MostChampionSummaryDTO[] list = new MostChampionSummaryDTO[3];

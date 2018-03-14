@@ -25,7 +25,28 @@
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript"
 	src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+<link rel="stylesheet" type="text/css"
+	href="jqueryui1.7/development-bundle/themes/smoothness/ui.core.css">
+<link rel="stylesheet" type="text/css"
+	href="jqueryui1.7/development-bundle/themes/smoothness/ui.theme.css">
+<link rel="stylesheet" type="text/css"
+	href="jqueryui1.7/development-bundle/themes/smoothness/ui.progressbar.css"> -->
 <style type="text/css">
+.progress-bar {
+	height: 30px;
+	color: #fff;
+	font-weight: bold;
+	text-align: right;
+	background: #ee5a52;
+	width: 0px;
+	padding: 0.8em;
+}
 </style>
 </head>
 <body>
@@ -63,7 +84,8 @@
 							<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
 								Menu</a>
 							<h3 class="box-title">전적검색</h3>
-							<form role="form" action ="<c:url value = "/lol/infoPage"/>"method="get">
+							<form role="form" action="<c:url value = "/lol/infoPage"/>"
+								method="get">
 								<strong>소환사</strong> : <input type="text" name="summonerName"
 									id="summonerName"> <input type="submit" value="검색"
 									id="submitBtn" placeholder="소환사명...">
@@ -129,11 +151,18 @@
 													<td><fmt:formatNumber value="${player.goldEarned}"
 															type="number" /></td>
 													<td>${player.totalMinionsKilled}(${player.neutralMinionsKilled })</td>
-													<td><fmt:formatNumber
+													<td class="tdTag"><fmt:formatNumber
 															value="${player.totalDamageDealtToChampions}"
 															type="number" />(<fmt:formatNumber
-															value="${player.totalDamageTaken}" type="number" />)</td>
-													<td>${player.wardsPlaced}/${player.wardsKilled }</td>
+															value="${player.totalDamageTaken}" type="number" />)
+														<div class='progress-bar-holder'>
+															<div class="progressbar">
+																<div class="progress-bar">${player.ratio}%</div>
+															</div>
+														</div></td>
+													<td><img src="http://z.fow.kr//items3/2055.png"
+														alt="제어와드 설치 수"
+														style="width: 14px; border: 0; height: 14px; margin: 4px; vertical-align: middle;">${player.visionWardsBoughtInGame }<br />${player.wardsPlaced}/${player.wardsKilled }</td>
 												</tr>
 											</c:if>
 											<c:if test="${not (player.summonerId eq summonerId)}">
@@ -171,11 +200,18 @@
 													<td><fmt:formatNumber value="${player.goldEarned}"
 															type="number" /></td>
 													<td>${player.totalMinionsKilled}(${player.neutralMinionsKilled })</td>
-													<td><fmt:formatNumber
+													<td class="tdTag"><fmt:formatNumber
 															value="${player.totalDamageDealtToChampions}"
 															type="number" />(<fmt:formatNumber
-															value="${player.totalDamageTaken}" type="number" />)</td>
-													<td>${player.wardsPlaced}/${player.wardsKilled }</td>
+															value="${player.totalDamageTaken}" type="number" />)
+														<div class='progress-bar-holder'>
+															<div class="progressbar">
+																<div class="progress-bar">${player.ratio}%</div>
+															</div>
+														</div></td>
+													<td><img src="http://z.fow.kr//items3/2055.png"
+														alt="제어와드 설치 수"
+														style="width: 14px; border: 0; height: 14px; margin: 4px; vertical-align: middle;">${player.visionWardsBoughtInGame }<br />${player.wardsPlaced}/${player.wardsKilled }</td>
 												</tr>
 											</c:if>
 										</c:when>
@@ -215,11 +251,18 @@
 													<td><fmt:formatNumber value="${player.goldEarned}"
 															type="number" /></td>
 													<td>${player.totalMinionsKilled}(${player.neutralMinionsKilled })</td>
-													<td><fmt:formatNumber
+													<td class="tdTag"><fmt:formatNumber
 															value="${player.totalDamageDealtToChampions}"
 															type="number" />(<fmt:formatNumber
-															value="${player.totalDamageTaken}" type="number" />)</td>
-													<td>${player.wardsPlaced}/${player.wardsKilled }</td>
+															value="${player.totalDamageTaken}" type="number" />)
+														<div class='progress-bar-holder'>
+															<div class="progressbar">
+																<div class="progress-bar">${player.ratio}%</div>
+															</div>
+														</div></td>
+													<td><img src="http://z.fow.kr//items3/2055.png"
+														alt="제어와드 설치 수"
+														style="width: 14px; border: 0; height: 14px; margin: 4px; vertical-align: middle;">${player.visionWardsBoughtInGame }<br />${player.wardsPlaced}/${player.wardsKilled }</td>
 												</tr>
 											</c:if>
 											<c:if test="${not (player.summonerId eq summonerId)}">
@@ -254,15 +297,23 @@
 														<img width="20px" height="20px"
 														src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item6}"/>.png" />
 													</td>
-													<td><fmt:formatNumber value="${player.goldEarned}"
-															type="number" /></td>
+													<td class="deal"><fmt:formatNumber
+															value="${player.goldEarned}" type="number" /></td>
 													<td>${player.totalMinionsKilled}(${player.neutralMinionsKilled })</td>
-													<td><fmt:formatNumber
+													<td class="tdTag"><fmt:formatNumber
 															value="${player.totalDamageDealtToChampions}"
 															type="number" />(<fmt:formatNumber
-															value="${player.totalDamageTaken}" type="number" />)</td>
-													<td>${player.wardsPlaced}/${player.wardsKilled }</td>
+															value="${player.totalDamageTaken}" type="number" />)
+														<div class='progress-bar-holder'>
+															<div class="progressbar">
+																<div class="progress-bar">${player.ratio}%</div>
+															</div>
+														</div></td>
+													<td><img src="http://z.fow.kr//items3/2055.png"
+														alt="제어와드 설치 수"
+														style="width: 14px; border: 0; height: 14px; margin: 4px; vertical-align: middle;">${player.visionWardsBoughtInGame }<br />${player.wardsPlaced}/${player.wardsKilled }</td>
 												</tr>
+
 											</c:if>
 										</c:otherwise>
 									</c:choose>
@@ -270,63 +321,7 @@
 
 
 							</table>
-							<%-- <table class="table table-striped">
-								<tr>
-									<th>전시즌</th>
-									<th>S8</th>
-									<th>챔피언/이름</th>
-									<th>스펠</th>
-									<th>룬</th>
-									<th>레벨</th>
-									<th>평점</th>
-									<th>아이템</th>
-									<th>골드</th>
-									<th>CS</th>
-									<th>딜량(탱)</th>
-									<th>와드(제거)</th>
-								</tr>
 
-								<c:forEach items="${playerList}" var="player" begin="5" end="9">
-									<tr style="background: #FFEEEE;">
-										<td>${player.highestAchievedSeasonTier }</td>
-										<td>${player.tier }-${player.rank }</td>
-										<td><img width="30px" height="30px"
-											src="http://z.fow.kr/champ/<c:url value="${player.championId}"/>.png" />${player.summonerName}</td>
-										<td><img width="20px" height="20px"
-											src="http://z.fow.kr/spell/<c:url value="${player.spell1Id}"/>.png" /><img
-											width="20px" height="20px"
-											src="http://z.fow.kr/spell/<c:url value="${player.spell2Id}"/>.png" /></td>
-										<td><img width="20px" height="20px"
-											src="http://opgg-static.akamaized.net/images/lol/perk/<c:url value="${player.perk0}"/>.png" /><img
-											width="20px" height="20px"
-											src="http://opgg-static.akamaized.net/images/lol/perkStyle/<c:url value="${player.perkSubStyle}"/>.png" /></td>
-										<td>${player.champLevel}</td>
-										<td>${player.kills}/${player.deaths}/${player.assists}</td>
-										<td><img width="20px" height="20px"
-											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item0}"/>.png" />
-											<img width="20px" height="20px"
-											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item1}"/>.png" />
-											<img width="20px" height="20px"
-											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item2}"/>.png" />
-											<img width="20px" height="20px"
-											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item3}"/>.png" />
-											<img width="20px" height="20px"
-											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item4}"/>.png" />
-											<img width="20px" height="20px"
-											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item5}"/>.png" />
-											<img width="20px" height="20px"
-											src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item6}"/>.png" />
-										</td>
-										<td><fmt:formatNumber value="${player.goldEarned}"
-												type="number" /></td>
-										<td>${player.totalMinionsKilled}(${player.neutralMinionsKilled })</td>
-										<td><fmt:formatNumber
-												value="${player.totalDamageDealtToChampions}" type="number" />(<fmt:formatNumber
-												value="${player.totalDamageTaken}" type="number" />)</td>
-										<td>${player.wardsPlaced}/${player.wardsKilled }</td>
-									</tr>
-								</c:forEach>
-							</table> --%>
 						</div>
 
 						<div class="box-footer"></div>
@@ -395,32 +390,27 @@
 	</div>
 	<!-- /.LoginModal -->
 	<script>
-		var result = "${result}";
-		if (result == 'success') {
-			alert("소환사의 정보가 등록되었습니다.");
-		}
-
-		<!-- Menu Toggle Script --> 
+	
+		$(document).ready(function() {
+			$(".progress-bar").each(function() {
+				var value = parseInt($(this).html());
+				$(this).animate({
+					'width' : '' + value + 'px'
+				}, 800);
+			});
+		});
+	
+		<!-- Menu Toggle Script -->
 		$("#menu-toggle").click(function(e) {
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
 		});
-		
+	
 		<!-- Modal Action -->
 		$("#loginModalBtn").click(function() {
 			$("#loginModal").modal();
 		});
-
-		var profileIconId = "${summonerVO.profileIconId}";
-		var src = "https://opgg-static.akamaized.net/images/profile_icons/profileIcon"
-				+ profileIconId + ".jpg";
-
-		console.log(profileIconId + " / " + src);
-		$("#srcTag").attr("src", src);
-
-		$("#submitBtn").on("click", function() {
-			$("#view").submit();
-		});
+	
 	</script>
 </body>
 </html>

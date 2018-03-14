@@ -47,7 +47,7 @@
 						<li><a href="http://localhost:8080/user/logout">로그아웃</a></li>
 					</c:when>
 				</c:choose>
-			</ul>	
+			</ul>
 		</div>
 		<!-- /#sidebar-wrapper -->
 		<div id="page-content-wrapper">
@@ -146,14 +146,13 @@
 													<form role="form"
 														action="<c:url value = "/lol/viewMatch"/>" method="get">
 														<input type="hidden" name="gameId"
-															value="${player.gameId }"> 
-															<input type="hidden"
+															value="${player.gameId }"> <input type="hidden"
 															name="summonerId" value="${player.summonerId }">
 														<!-- <input type="submit" value="게임 조회"> -->
 														<%-- <button
 															onclick="window.open('<c:url value = "/lol/viewMatch?gameId="/> + ${player.gameId }','_blank');"
 															type="button" value="게임 조회">상세</button> --%>
-																<input type="submit" value="상세">
+														<input type="submit" value="상세">
 													</form>
 												</td>
 											</tr>
@@ -194,14 +193,13 @@
 													<form role="form"
 														action="<c:url value = "/lol/viewMatch"/>" method="get">
 														<input type="hidden" name="gameId"
-															value="${player.gameId }">
-															<input type="hidden"
+															value="${player.gameId }"> <input type="hidden"
 															name="summonerId" value="${player.summonerId }">
 														<!-- <input type="submit" value="게임 조회"> -->
-													<%-- 	<button
+														<%-- 	<button
 															onclick="window.open('<c:url value = "/lol/viewMatch?gameId="/> + ${player.gameId }','_blank');"
 															type="button" value="게임 조회">상세</button> --%>
-															<input type="submit" value="상세">
+														<input type="submit" value="상세">
 													</form>
 												</td>
 											</tr>
@@ -211,7 +209,41 @@
 							</table>
 						</div>
 						<!--  /.box-body -->
-						<div class="box-footer"></div>
+						<div class="box-footer">
+							<table>
+								<tr>
+									<th class="idHeader">챔피언</th>
+									<th class="gameHeader">게임 수</th>
+									<th class="winHeader">승</th>
+									<th class="lossHeader">패</th>
+									<th class="dealHeader">평균딜량</th>
+								</tr>
+
+								<tr>
+									<td class="idBody1"></td>
+									<td class="gameBody1"></td>
+									<td class="winBody1"></td>
+									<td class="lossBody1"></td>
+									<td class="dealBody1"></td>
+								</tr>
+
+								<tr>
+									<td class="idBody"></td>
+									<td class="gameBody"></td>
+									<td class="winBody"></td>
+									<td class="lossBody"></td>
+									<td class="dealBody"></td>
+								</tr>
+
+								<tr>
+									<td class="idBody"></td>
+									<td class="gameBody"></td>
+									<td class="winBody"></td>
+									<td class="lossBody"></td>
+									<td class="dealBody"></td>
+								</tr>
+							</table>
+						</div>
 						<!--  /.box-footer -->
 					</div>
 					<!--  /.box-primary -->
@@ -276,7 +308,45 @@
 		</div>
 	</div>
 	<!-- /.LoginModal -->
+	<script type="text/javascript"
+		src="https://www.gstatic.com/charts/loader.js"></script>
+
 	<script>
+	
+
+	
+	var box = [];
+	var most = [];
+	var dealingList = [];
+	<c:forEach items="${most}" var="list" varStatus = "status">
+		var id = {championId : "${list.championId}"};
+		var frequency = {frequency : "${list.frequency}"};
+		var win = {win : "${list.win}"};
+		var loss = {loss : "${list.losses}"};
+		<c:forEach items="${list.dealingList}" var="dealingList">
+			var dealing = {deal : "${dealingList}"};
+			dealingList.push(dealing);
+		</c:forEach>
+		most.push(id);
+		most.push(frequency);
+		most.push(win);
+		most.push(loss);
+		most.push(dealingList);
+		dealingList = [];
+		
+		box[${status.index}] = most;
+		most = [];
+	</c:forEach>
+	
+	console.log((box[0])[0]);
+	$("td.idBody1").append();
+	$(document).ready(function () {
+		
+		
+	});
+	
+	
+	
 	
 	<!-- Menu Toggle Script --> 
 	$("#menu-toggle").click(function(e) {

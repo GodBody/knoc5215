@@ -1,6 +1,7 @@
 package org.knoc.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,6 @@ import org.knoc.dto.ParticipantIdentityDTO;
 import org.knoc.dto.ParticipantStatsDTO;
 import org.knoc.dto.PlayerDTO;
 import org.knoc.dto.SummonerDTO;
-import org.knoc.dto.SummonerSpellDTO;
 import org.knoc.dto.TeamStatsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,7 @@ public class LOLServiceImpl implements LOLService {
 		headers.set("User-Agent",
 				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML,like Gecko) Chrome/64.0.3282.186 Safari/537.36");
 		headers.set("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
-		headers.set("X-Riot-Token", "RGAPI-ab476e8f-a071-4d9e-9105-2847e5389347");
+		headers.set("X-Riot-Token", "RGAPI-d1c5289a-7a65-4ac4-adcb-6561b6e71708");
 
 		return new HttpEntity<T>(headers);
 
@@ -157,7 +157,6 @@ public class LOLServiceImpl implements LOLService {
 
 	}
 
-
 	@Override
 	public void insertSoloRankInfo(LeaguePositionDTO dto_SOLO) {
 		// TODO Auto-generated method stub
@@ -215,47 +214,18 @@ public class LOLServiceImpl implements LOLService {
 			pStats.add(participant.get(i).getStats());
 		}
 
-		Map<Integer, Object> map = new HashMap<>();
-		for (int i = 0; i < 10; i++) {
-			map.put(i, player.get(i));
-			if (i == 0) {
-				// System.out.println("승리팀");
-			} else if (i == 5) {
-				// System.out.println("패배팀");
-			}
-			// System.out.println(i + "번째 소환사 : " + map.get(i));
-		}
-
-		Map<Integer, Object> map2 = new HashMap<>();
-		for (int i = 0; i < 10; i++) {
-			map2.put(i, participant.get(i));
-			if (i == 0) {
-				// System.out.println("승리팀");
-			} else if (i == 5) {
-				// System.out.println("패배팀");
-			}
-			// System.out.println(i + "번째 소환사 : " + map2.get(i));
-		}
-
-//		List<Map<Integer, Object>> gameMapList = new ArrayList<Map<Integer, Object>>();
-//
-//		gameMapList.add(map);
-//		gameMapList.add(map2);
-//
-//		logger.info("Controller로 보낼 객체 : " + gameMapList.toString());
-		
 		PlayerVO[] vo = new PlayerVO[10];
+		long[] dealingList = new long[10];
 		for (int i = 0; i < 10; i++) {
 
 			vo[i] = new PlayerVO();
-			// System.out.println(i + " 번 vo 객체 생성 완료.");
 			vo[i].setSummonerName(player.get(i).getSummonerName());
 			vo[i].setSummonerId(player.get(i).getSummonerId());
 			vo[i].setAccountId(player.get(i).getAccountId());
 			vo[i].setTeamId(participant.get(i).getTeamId());
 
 			vo[i].setWin(participant.get(i).getStats().isWin());
-			
+
 			vo[i].setParticipantId(participant.get(i).getParticipantId());
 			vo[i].setHighestAchievedSeasonTier(participant.get(i).getHighestAchievedSeasonTier());
 			vo[i].setChampionId(participant.get(i).getChampionId());
@@ -286,7 +256,17 @@ public class LOLServiceImpl implements LOLService {
 			vo[i].setItem6(participant.get(i).getStats().getItem6());
 			vo[i].setWardsKilled(participant.get(i).getStats().getWardsKilled());
 			vo[i].setWardsPlaced(participant.get(i).getStats().getWardsPlaced());
+			vo[i].setVisionWardsBoughtInGame(participant.get(i).getStats().getVisionWardsBoughtInGame());
+			dealingList[i] = vo[i].getTotalDamageDealtToChampions();
 
+		}
+
+		Arrays.sort(dealingList);
+		System.out.println("최대 딜량 : " + dealingList[dealingList.length - 1]);
+		long maxDeal = dealingList[dealingList.length - 1];
+
+		for (int i = 0; i < vo.length; i++) {
+			vo[i].setRatio(maxDeal);
 		}
 
 		return vo;
@@ -340,7 +320,7 @@ public class LOLServiceImpl implements LOLService {
 	}
 
 	@Override
-	public PlayerVO getMatchSummory(long gameId, String summonerName) { 
+	public PlayerVO getMatchSummory(long gameId, String summonerName) {
 		// TODO Auto-generated method stub
 		logger.info("INTO getMatchSummary...SERVICE");
 
@@ -378,7 +358,8 @@ public class LOLServiceImpl implements LOLService {
 
 		vo.setTotalMinionsKilled(convert.getParticipants().get(index).getStats().getTotalMinionsKilled());
 		vo.setNeutralMinionsKilled(convert.getParticipants().get(index).getStats().getNeutralMinionsKilled());
-		vo.setTotalDamageDealtToChampions(convert.getParticipants().get(index).getStats().getTotalDamageDealtToChampions());
+		vo.setTotalDamageDealtToChampions(
+				convert.getParticipants().get(index).getStats().getTotalDamageDealtToChampions());
 		vo.setSpell1Id(convert.getParticipants().get(index).getSpell1Id());
 		vo.setSpell2Id(convert.getParticipants().get(index).getSpell2Id());
 

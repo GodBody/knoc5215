@@ -13,6 +13,7 @@ public class ParticipantStatsDTO {
 	private int assists;
 	private int wardsPlaced;
 	private int wardsKilled;
+	private int visionWardsBoughtInGame;
 	private int champLevel;
 	private int doubleKills;
 	private int tripleKills;
@@ -31,6 +32,14 @@ public class ParticipantStatsDTO {
 	
 	
 	
+
+	public int getVisionWardsBoughtInGame() {
+		return visionWardsBoughtInGame;
+	}
+
+	public void setVisionWardsBoughtInGame(int visionWardsBoughtInGame) {
+		this.visionWardsBoughtInGame = visionWardsBoughtInGame;
+	}
 
 	public int getPerk0() {
 		return perk0;
@@ -238,10 +247,11 @@ public class ParticipantStatsDTO {
 				+ ", totalDamageTaken=" + totalDamageTaken + ", totalMinionsKilled=" + totalMinionsKilled
 				+ ", neutralMinionsKilled=" + neutralMinionsKilled + ", goldEarned=" + goldEarned + ", kills=" + kills
 				+ ", deaths=" + deaths + ", assists=" + assists + ", wardsPlaced=" + wardsPlaced + ", wardsKilled="
-				+ wardsKilled + ", champLevel=" + champLevel + ", doubleKills=" + doubleKills + ", tripleKills="
-				+ tripleKills + ", quadraKills=" + quadraKills + ", pentaKills=" + pentaKills + ", perk0=" + perk0
-				+ ", perkSubStyle=" + perkSubStyle + ", item0=" + item0 + ", item1=" + item1 + ", item2=" + item2
-				+ ", item3=" + item3 + ", item4=" + item4 + ", item5=" + item5 + ", item6=" + item6 + "]";
+				+ wardsKilled + ", visionWardsBoughtInGame=" + visionWardsBoughtInGame + ", champLevel=" + champLevel
+				+ ", doubleKills=" + doubleKills + ", tripleKills=" + tripleKills + ", quadraKills=" + quadraKills
+				+ ", pentaKills=" + pentaKills + ", perk0=" + perk0 + ", perkSubStyle=" + perkSubStyle + ", item0="
+				+ item0 + ", item1=" + item1 + ", item2=" + item2 + ", item3=" + item3 + ", item4=" + item4 + ", item5="
+				+ item5 + ", item6=" + item6 + "]";
 	}
 
 }

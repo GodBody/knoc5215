@@ -1,10 +1,8 @@
 package org.knoc.domain;
 
-import java.util.List;
-
 public class PlayerVO {
 	private long gameId;
-	
+
 	public long getGameId() {
 		return gameId;
 	}
@@ -36,6 +34,7 @@ public class PlayerVO {
 	private int kills;
 	private int deaths;
 	private int assists;
+	private int visionWardsBoughtInGame;
 	private int wardsPlaced;
 	private int wardsKilled;
 	private int champLevel;
@@ -52,8 +51,24 @@ public class PlayerVO {
 	private int item4;
 	private int item5;
 	private int item6;
-	
-	
+
+	private long ratio;
+
+	public int getVisionWardsBoughtInGame() {
+		return visionWardsBoughtInGame;
+	}
+
+	public void setVisionWardsBoughtInGame(int visionWardsBoughtInGame) {
+		this.visionWardsBoughtInGame = visionWardsBoughtInGame;
+	}
+
+	public long getRatio() {
+		return ratio;
+	}
+
+	public void setRatio(long maxDeal) {
+		this.ratio = (long) ((float) this.totalDamageDealtToChampions / maxDeal * 100);
+	}
 
 	public int getPerk0() {
 		return perk0;
@@ -352,11 +367,12 @@ public class PlayerVO {
 				+ ", totalDamageDealtToChampions=" + totalDamageDealtToChampions + ", totalDamageTaken="
 				+ totalDamageTaken + ", totalMinionsKilled=" + totalMinionsKilled + ", neutralMinionsKilled="
 				+ neutralMinionsKilled + ", goldEarned=" + goldEarned + ", kills=" + kills + ", deaths=" + deaths
-				+ ", assists=" + assists + ", wardsPlaced=" + wardsPlaced + ", wardsKilled=" + wardsKilled
-				+ ", champLevel=" + champLevel + ", doubleKills=" + doubleKills + ", tripleKills=" + tripleKills
-				+ ", quadraKills=" + quadraKills + ", pentaKills=" + pentaKills + ", perk0=" + perk0 + ", perkSubStyle="
-				+ perkSubStyle + ", item0=" + item0 + ", item1=" + item1 + ", item2=" + item2 + ", item3=" + item3
-				+ ", item4=" + item4 + ", item5=" + item5 + ", item6=" + item6 + "]";
+				+ ", assists=" + assists + ", visionWardsBoughtInGame=" + visionWardsBoughtInGame + ", wardsPlaced="
+				+ wardsPlaced + ", wardsKilled=" + wardsKilled + ", champLevel=" + champLevel + ", doubleKills="
+				+ doubleKills + ", tripleKills=" + tripleKills + ", quadraKills=" + quadraKills + ", pentaKills="
+				+ pentaKills + ", perk0=" + perk0 + ", perkSubStyle=" + perkSubStyle + ", item0=" + item0 + ", item1="
+				+ item1 + ", item2=" + item2 + ", item3=" + item3 + ", item4=" + item4 + ", item5=" + item5 + ", item6="
+				+ item6 + ", ratio=" + ratio + "]";
 	}
 
 }
