@@ -68,8 +68,8 @@
 						<div class="box-header"></div>
 						<!-- /.box-header -->
 
-						<form role="form" action="<c:url value="/user/messageSend"/>"
-							method="post">
+						<form name='sendForm' role="form" id='messageForm'
+							action="<c:url value="/user/messageSend"/>" method="post">
 							<div class="box-body">
 								<div class="form-group">
 									<label for="sender">발신자</label> <input type="text"
@@ -78,7 +78,7 @@
 								</div>
 								<div class="form-group">
 									<label for="receiver">수신자</label> <input type="text"
-										name='receiver' id='receiver' class="form-control"
+										name="receiver" id="receiver" class="form-control"
 										value="${receiver}" readonly="readonly">
 								</div>
 								<div class="form-group">
@@ -90,9 +90,9 @@
 							<!-- /.box-body -->
 
 							<div class="box-footer">
-								<input type="submit" class="btn btn-primary" id="sendBtn"
-									value="보내기">
-								<button id="cancelBtn" type="submit" class="btn btn-warning">취소</button>
+								<button type="button" onclick="check()" class="btn btn-primary"
+									id="sendBtn">전송</button>
+								<button id="cancelBtn" type="button" class="btn btn-warning">취소</button>
 							</div>
 							<!-- /.box-footer -->
 						</form>
@@ -108,25 +108,36 @@
 	</div>
 	<!-- /. wrapper -->
 
-	<script>
+	<script type="text/javascript">
 	
-	<!-- Menu Toggle Script --> 
-	$("#menu-toggle").click(function(e) {
-		e.preventDefault();
-		$("#wrapper").toggleClass("toggled");
-	});
+		<!-- Menu Toggle Script -->
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
 	
-	<!-- Modal Action -->
-	$("#loginModalBtn").click(function() {
-		$("#loginModal").modal();
-	});
-		$(document).ready(function() {
-			$("#sendBtn").on("click", function() {
-				alert("전송되었습니다.");
-				$("#sendBtn").submit();
+		<!-- Modal Action -->
+		$("#loginModalBtn").click(function() {
+			$("#loginModal").modal();
+		});
+	
+		function check() {
+			if (document.sendForm.content.value == "") {
+				alert("내용을 입력하세요.");
+				document.messageSendForm.content.focus();
+			} else if (document.sendForm.receiver.value == "") {
+				alert("잘못된 접근입니다.");
 				self.close();
-			});
-
+			} else {
+				$("#messageForm").submit();
+				alert("전송되었습니다.");
+			}
+		}
+	
+	
+		$(document).ready(function() {
+	
+	
 			$("#cancelBtn").on("click", function() {
 				self.close();
 			});

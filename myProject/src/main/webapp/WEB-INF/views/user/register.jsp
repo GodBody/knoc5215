@@ -90,8 +90,7 @@
 										name="uemail" class="form-control" placeholder="Enter NAME">
 								</div>
 								<input type="submit" class="btn btn-primary" onclick="check()"
-									value="REGIST"> <input type="submit"
-									class="btn btn-primary" onclick="check()" value="REGIST">
+									value="REGIST"> 
 							</form>
 						</div>
 

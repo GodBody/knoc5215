@@ -60,7 +60,7 @@
 						<div class="box-header">
 							<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
 								Menu</a>
-							<h3 class="box-title">Into 전적검색</h3>
+							<h3 style="text-align: center;" class="box-title">Into 전적검색</h3>
 
 						</div>
 						<!-- /.box-header -->
@@ -68,9 +68,9 @@
 						<br>
 
 						<div class="box-body">
-							<div class="table table-striped">
-								<form role="form" action="<c:url value = "/lol/infoPage"/>"
-									method="get">
+							<div style="text-align: center;" class="table table-striped">
+								<form style="text-align: center;" role="form"
+									action="<c:url value = "/lol/infoPage"/>" method="get">
 									<strong>소환사</strong> : <input type="text" name="summonerName"
 										id="summonerName"> <input type="submit" value="검색"
 										id="submitBtn" placeholder="소환사명...">
@@ -79,22 +79,23 @@
 						</div>
 
 						<div class="box-footer">
-							<div class="table">
-
-								<c:if test="${summonerVO ne null }">
-									<img id="srcTag" width="50px;" height="50px;"
-										src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon<c:url value="${summonerVO.profileIconId }"/>.jpg" />
-									<span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>${summonerVO.name }</strong>
-										(Lv. ${summonerVO.summonerLevel}) / ${summonerVO.tier}
-										${summonerVO.rank } : ${summonerVO.leaguePoints }pt /
-										${summonerVO.wins }승 ${summonerVO.losses }패 /
-										${summonerVO.accountId }
-									</span>
-								</c:if>
+							<div style="text-align: center;" class="table">
+								<span style="text-align: center;"> <c:if
+										test="${summonerVO ne null }">
+										<img id="srcTag" width="50px;" height="50px;"
+											src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon<c:url value="${summonerVO.profileIconId }"/>.jpg" />
+										<span> &nbsp;&nbsp;&nbsp;&nbsp; <strong>${summonerVO.name }</strong>
+											(Lv. ${summonerVO.summonerLevel}) / ${summonerVO.tier}
+											${summonerVO.rank } : ${summonerVO.leaguePoints }pt /
+											${summonerVO.wins }승 ${summonerVO.losses }패 /
+											${summonerVO.accountId }
+										</span>
+									</c:if>
+								</span>
 							</div>
 							<div>
 								<table>
-								
+
 									<c:forEach items="${voList}" var="player">
 										<c:choose>
 											<c:when test="${player.win eq true }">
@@ -260,28 +261,28 @@
 	<!-- /.LoginModal -->
 	<script>
 	
-	<!-- Menu Toggle Script --> 
-	$("#menu-toggle").click(function(e) {
-		e.preventDefault();
-		$("#wrapper").toggleClass("toggled");
-	});
+		<!-- Menu Toggle Script -->
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
 	
-	<!-- Modal Action -->
-	$("#loginModalBtn").click(function() {
-		$("#loginModal").modal();
-	});
+		<!-- Modal Action -->
+		$("#loginModalBtn").click(function() {
+			$("#loginModal").modal();
+		});
 		var result = "${result}";
 		if (result == 'success') {
 			alert("소환사의 정보가 등록되었습니다.");
 		}
-
+	
 		/* var profileIconId = "${summonerVO.profileIconId}";
 		var src = "https://opgg-static.akamaized.net/images/profile_icons/profileIcon"
 				+ profileIconId + ".jpg";
-
+		
 		console.log(profileIconId + " / " + src);
 		$("#srcTag").attr("src", src); */
-
+	
 		$("#submitBtn").on("click", function() {
 			$("#view").submit();
 		});

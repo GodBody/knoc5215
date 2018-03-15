@@ -21,7 +21,7 @@ public interface LOLDAO {
 
 	public void insertMatch(MatchReferenceDTO matchReferenceDTO);
 
-	public List<MatchReferenceDTO> getMatchList(long accountId);
+//	public List<MatchReferenceDTO> getMatchList(long accountId);
 
 	public void insertMatchTableJSON(String json, long gameId);
 

@@ -86,7 +86,7 @@
 					href="http://localhost:8080/user/home"> Start Bootstrap </a></li>
 				<li><a href="http://localhost:8080/uboard/list">공지사항</a></li>
 				<li><a href="http://localhost:8080/sboard/list">자유게시판</a></li>
-			<li><a href="http://localhost:8080/lol/infoPageStart">전적검색</a></li>
+				<li><a href="http://localhost:8080/lol/infoPageStart">전적검색</a></li>
 				<c:choose>
 					<c:when test="${sessionScope.login eq null}">
 						<li id="loginModalBtn"><a href="#">로그인</a></li>
@@ -111,7 +111,7 @@
 					<div class="box box-primary">
 						<div class="box-header">
 							<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
-					Menu</a>
+								Menu</a>
 							<h3 class="box-title"></h3>
 						</div>
 						<!-- /.box-header -->
@@ -164,66 +164,64 @@
 				</div>
 				<!--/.col (left) -->
 
-				<div class="row">
-					<div class="col-md-12">
-						<div class="box box-success">
-							<c:if test="${not empty login }">
-								<div class="box-body">
-									<label for="newReplyWriter">작성자</label> <input
-										class="form-control" type="text" id="newReplyWriter"
-										placeholder="USER ID" value="${login.uid }"
-										readonly="readonly"> <label for="newReplyText">댓글</label>
-									<input class="form-control" type="text" id="newReplyText"
-										placeholder="REPLY TEXT">
-								</div>
-								<!--  /.box-body -->
-								<div class="box-footer">
-									<button type="submit" class="btn btn-primary" id="replyAddBtn">등록</button>
-								</div>
-							</c:if>
-							<br /> <br />
-
-							<c:if test="${empty login }">
-								<div class="box-body">
-									<div>
-										<a href="http://localhost:8080/user/login">로그인</a>
-									</div>
-								</div>
-							</c:if>
-
-							<div class="box-footer" id="repliesDiv">
-								<c:forEach items="${replyList}" var="reply">
-									<c:choose>
-										<c:when test="${sessionScope.login.uid eq reply.replyer}">
-											<p>
-												<strong><span>${reply.replyer}</span></strong> :
-												${reply.replytext } - <span id="rnoSpan">${reply.rno }</span>
-											</p>
-											<a class="btn btn-primary btn-xs" data-toggle="modal"
-												data-target="#modifyModal">Modify</a>
-										</c:when>
-										<c:otherwise>
-											<p>
-												<strong><span>${reply.replyer}</span></strong> :
-												${reply.replytext } - <span id="rnoSpan">${reply.rno }</span>
-											</p>
-										</c:otherwise>
-									</c:choose>
-
-								</c:forEach>
+				<div class="col-md-12">
+					<div class="box box-success">
+						<c:if test="${not empty login }">
+							<div class="box-body">
+								<label for="newReplyWriter">작성자</label> <input
+									class="form-control" type="text" id="newReplyWriter"
+									placeholder="USER ID" value="${login.uid }" readonly="readonly">
+								<label for="newReplyText">댓글</label> <input class="form-control"
+									type="text" id="newReplyText" placeholder="REPLY TEXT">
 							</div>
+							<!--  /.box-body -->
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary" id="replyAddBtn">등록</button>
+							</div>
+						</c:if>
+						<br /> <br />
 
+						<c:if test="${empty login }">
+							<div class="box-body">
+								<div>
+									<a href="http://localhost:8080/user/login">로그인</a>
+								</div>
+							</div>
+						</c:if>
 
+						<div class="box-footer" id="repliesDiv">
+							<c:forEach items="${replyList}" var="reply">
+								<c:choose>
+									<c:when test="${sessionScope.login.uid eq reply.replyer}">
+										<p>
+											<strong><span>${reply.replyer}</span></strong> :
+											${reply.replytext } - <span id="rnoSpan">${reply.rno }</span>
+										</p>
+										<a class="btn btn-primary btn-xs" data-toggle="modal"
+											data-target="#modifyModal">Modify</a>
+									</c:when>
+									<c:otherwise>
+										<p>
+											<strong><span>${reply.replyer}</span></strong> :
+											${reply.replytext } - <span id="rnoSpan">${reply.rno }</span>
+										</p>
+									</c:otherwise>
+								</c:choose>
+
+							</c:forEach>
 						</div>
 
+
 					</div>
-					<!-- /. col -->
+
 				</div>
-				<!--  /.row -->
+				<!-- /. col -->
 			</div>
-			<!--  /.container -->
+			<!--  /.row -->
 		</div>
-		<!-- /. page-content-wrapper -->
+		<!--  /.container -->
+	</div>
+	<!-- /. page-content-wrapper -->
 	</div>
 	<!-- /. wrapper -->
 
@@ -307,23 +305,23 @@
 
 	<script>
 	
-	<!-- Menu Toggle Script --> 
-	$("#menu-toggle").click(function(e) {
-		e.preventDefault();
-		$("#wrapper").toggleClass("toggled");
-	});
+		<!-- Menu Toggle Script -->
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
 	
-	<!-- Modal Action -->
-	$("#loginModalBtn").click(function() {
-		$("#loginModal").modal();
-	});
+		<!-- Modal Action -->
+		$("#loginModalBtn").click(function() {
+			$("#loginModal").modal();
+		});
 		$("#replyAddBtn").on("click", function() {
-
+	
 			var replyerObj = $("#newReplyWriter");
 			var replytextObj = $("#newReplyText");
 			var replyer = replyerObj.val();
 			var replytext = replytextObj.val();
-
+	
 			$.ajax({
 				type : 'post',
 				url : '/replies/',
@@ -347,13 +345,13 @@
 				}
 			});
 		});
-
+	
 		$("#replyModBtn").on("click", function() {
-
+	
 			var rno = $("#rnoSpan").html();
 			var replytext = $("#replytext").val();
 			console.log(rno);
-
+	
 			$.ajax({
 				type : 'put',
 				url : '/replies/' + rno,
@@ -374,12 +372,12 @@
 				}
 			});
 		});
-
+	
 		$("#replyDelBtn").on("click", function() {
-
+	
 			var rno = $("#rnoSpan").html();
 			var replytext = $("#replytext").val();
-
+	
 			$.ajax({
 				type : 'delete',
 				url : '/replies/' + rno,
@@ -401,49 +399,47 @@
 
 	<script>
 		$(document).ready(function() {
-
+	
 			var formObj = $("form[role='form']");
-
+	
 			console.log(formObj);
-
+	
 			$("#modifyBtn").on("click", function() {
 				formObj.attr("action", "/sboard/modifyPage");
 				formObj.attr("method", "get");
 				formObj.submit();
 			});
-
+	
 			$("#removeBtn").on("click", function() {
-
+	
 				var replyCnt = $("#repliesDiv").html().replace(/[^0-9]/g, "");
-
+	
 				if (replyCnt > 0) {
 					alert("댓글이 있는 글은 지울 수 없습니다.");
 					return;
 				}
-
+	
 				var arr = [];
 				$(".uploadedList li").each(function(index) {
 					arr.push($(this).attr("data-src"));
 				});
-
+	
 				if (arr.length > 0) {
 					$.post("/deleteAllFiles", {
 						files : arr
-					}, function() {
-
-					});
+					}, function() {});
 				}
-
+	
 				formObj.attr("action", "/sboard/removePage");
 				formObj.submit();
 			});
-
+	
 			$("#goListBtn ").on("click", function() {
 				formObj.attr("method", "get");
 				formObj.attr("action", "/sboard/list");
 				formObj.submit();
 			});
-
+	
 		});
 	</script>
 

@@ -57,13 +57,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{gameId})
 	</insert>
 
-	<select id="getMatchList" resultType="MatchReferenceDTO">
+	<!-- <select id="getMatchList" resultType="MatchReferenceDTO">
 		select *
 		from tbl_match
 		where id = #{summonerId}
 		limit 20
 	</select>
-
+ -->
 	<insert id="insertMatchTableJSON">
 		insert into tbl_matchJSON (matchId, json)
 		values

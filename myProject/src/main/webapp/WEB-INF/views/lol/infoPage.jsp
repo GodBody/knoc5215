@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html lang="kor">
 <head>
@@ -24,6 +26,15 @@
 <script type="text/javascript"
 	src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
 <style type="text/css">
+th, td {
+	vertical-align: center;
+	padding: 10px;
+	border-bottom: 1px solid #444444;
+}
+
+table {
+	border-top: 1px solid #444444;
+}
 </style>
 </head>
 <body>
@@ -52,7 +63,7 @@
 		<!-- /#sidebar-wrapper -->
 		<div id="page-content-wrapper">
 			<div class="container-fluid">
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<!-- general form elements -->
 
 					<div class="box box-primary">
@@ -60,17 +71,20 @@
 						<div class="box-header">
 							<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
 								Menu</a>
-							<h3 class="box-title">전적검색</h3>
+							<h3 style="text-align: center;" class="box-title">전적검색</h3>
 
-							<div class="table table-striped">
-								<form role="form" method="get">
+							<div>
+								<form style="text-align: center;" role="form" method="get">
 									<strong>소환사</strong> : <input type="text" name="summonerName"
-										id="summonerName"> <input type="submit" value="검색"
-										id="submitBtn" placeholder="소환사명...">
+										id="summonerName">
+									<button type="submit" id="submitBtn"
+										class="glyphicon glyphicon-search"></button>
 								</form>
 							</div>
 
-							<div class="info">
+							<div
+								style="text-align: center; border-width: 2px; border-style: groove;"
+								class="info">
 
 								<c:if test="${summonerVO ne null }">
 									<c:set var="summonerVO" value="${summonerVO}" scope="session" />
@@ -95,7 +109,7 @@
 						<br>
 
 						<div class="box-body">
-							<table class="table table-striped">
+							<table class="table table-condensed">
 								<tr>
 									<th>결과</th>
 									<th>챔피언</th>
@@ -114,7 +128,34 @@
 											<tr style="background: #D4E4FE;">
 												<td>승리</td>
 												<td><img width="30px" height="30px"
-													src="http://z.fow.kr/champ/<c:url value="${player.championId}"/>.png" /></td>
+													src="http://z.fow.kr/champ/<c:url value="${player.championId}"/>.png" />
+													<c:choose>
+														<c:when
+															test="${ (player.doubleKills eq 0 ) and (player.tripleKills eq 0) and (player.quadraKills eq 0) and (player.pentaKills eq 0)}">
+														</c:when>
+														<c:when
+															test="${ (player.doubleKills ne 0 ) and (player.tripleKills eq 0) and (player.quadraKills eq 0) and (player.pentaKills eq 0)}">
+															<span class="Kill"
+																style="display: inline-block; background: #ee5a52; border: 1px solid #c6443e; border-radius: 15px; padding: 2px 8px; color: #f2f2f2;">더블킬</span>
+														</c:when>
+														<c:when
+															test="${ (player.doubleKills ne 0 ) and (player.tripleKills ne 0) and (player.quadraKills eq 0) and (player.pentaKills eq 0)}">
+															<span class="Kill"
+																style="display: inline-block; background: #ee5a52; border: 1px solid #c6443e; border-radius: 15px; padding: 2px 8px; color: #f2f2f2;">트리플킬</span>
+														</c:when>
+														<c:when
+															test="${ (player.doubleKills ne 0 ) and (player.tripleKills ne 0) and (player.quadraKills ne 0) and (player.pentaKills eq 0)}">
+															<span class="Kill"
+																style="display: inline-block; background: #ee5a52; border: 1px solid #c6443e; border-radius: 15px; padding: 2px 8px; color: #f2f2f2;">쿼드라킬</span>
+														</c:when>
+														<c:when
+															test="${ (player.doubleKills ne 0 ) and (player.tripleKills ne 0) and (player.quadraKills ne 0) and (player.pentaKills ne 0)}">
+															<span class="Kill"
+																style="display: inline-block; background: #ee5a52; border: 1px solid #c6443e; border-radius: 15px; padding: 2px 8px; color: #f2f2f2;">펜타킬</span>
+														</c:when>
+
+
+													</c:choose></td>
 
 												<td><img width="20px" height="20px"
 													src="http://z.fow.kr/spell/<c:url value="${player.spell1Id}"/>.png" /><img
@@ -125,7 +166,13 @@
 													width="20px" height="20px"
 													src="http://opgg-static.akamaized.net/images/lol/perkStyle/<c:url value="${player.perkSubStyle}"/>.png" /></td>
 												<td>${player.champLevel}&nbsp;&nbsp;</td>
-												<td>${player.kills}/${player.deaths}/${player.assists}</td>
+												<td>${player.kills}/<strong style="color: #c6443e;">${player.deaths}</strong>/${player.assists}<br />
+													<c:if test="${player.deaths eq 0 }">
+														<strong>Perfect</strong>
+													</c:if> <fmt:formatNumber value="${player.kdaRatio }"
+														pattern="0.00" />
+													<p style="color: #c6443e;">킬관여 ${player.killInvolvement }%</p>
+												</td>
 												<td><img width="20px" height="20px"
 													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item0}"/>.png" />
 													<img width="20px" height="20px"
@@ -152,7 +199,8 @@
 														<%-- <button
 															onclick="window.open('<c:url value = "/lol/viewMatch?gameId="/> + ${player.gameId }','_blank');"
 															type="button" value="게임 조회">상세</button> --%>
-														<input type="submit" value="상세">
+														<button class="glyphicon glyphicon-align-justify"
+															type="submit"></button>
 													</form>
 												</td>
 											</tr>
@@ -161,7 +209,35 @@
 											<tr style="background: #FFEEEE;">
 												<td>패배</td>
 												<td><img width="30px" height="30px"
-													src="http://z.fow.kr/champ/<c:url value="${player.championId}"/>.png" /></td>
+													src="http://z.fow.kr/champ/<c:url value="${player.championId}"/>.png" />
+													<c:choose>
+														<c:when
+															test="${ (player.doubleKills eq 0 ) and (player.tripleKills eq 0) and (player.quadraKills eq 0) and (player.pentaKills eq 0)}">
+														</c:when>
+														<c:when
+															test="${ (player.doubleKills ne 0 ) and (player.tripleKills eq 0) and (player.quadraKills eq 0) and (player.pentaKills eq 0)}">
+															<span class="Kill"
+																style="display: inline-block; background: #ee5a52; border: 1px solid #c6443e; border-radius: 15px; padding: 2px 8px; color: #f2f2f2;">더블킬</span>
+														</c:when>
+														<c:when
+															test="${ (player.doubleKills ne 0 ) and (player.tripleKills ne 0) and (player.quadraKills eq 0) and (player.pentaKills eq 0)}">
+															<span class="Kill"
+																style="display: inline-block; background: #ee5a52; border: 1px solid #c6443e; border-radius: 15px; padding: 2px 8px; color: #f2f2f2;">트리플킬</span>
+														</c:when>
+														<c:when
+															test="${ (player.doubleKills ne 0 ) and (player.tripleKills ne 0) and (player.quadraKills ne 0) and (player.pentaKills eq 0)}">
+															<span class="Kill"
+																style="display: inline-block; background: #ee5a52; border: 1px solid #c6443e; border-radius: 15px; padding: 2px 8px; color: #f2f2f2;">쿼드라킬</span>
+														</c:when>
+														<c:when
+															test="${ (player.doubleKills ne 0 ) and (player.tripleKills ne 0) and (player.quadraKills ne 0) and (player.pentaKills ne 0)}">
+															<span class="Kill"
+																style="display: inline-block; background: #ee5a52; border: 1px solid #c6443e; border-radius: 15px; padding: 2px 8px; color: #f2f2f2;">펜타킬</span>
+														</c:when>
+
+
+													</c:choose></td>
+
 
 												<td><img width="20px" height="20px"
 													src="http://z.fow.kr/spell/<c:url value="${player.spell1Id}"/>.png" /><img
@@ -172,7 +248,13 @@
 													width="20px" height="20px"
 													src="http://opgg-static.akamaized.net/images/lol/perkStyle/<c:url value="${player.perkSubStyle}"/>.png" /></td>
 												<td>${player.champLevel}&nbsp;&nbsp;</td>
-												<td>${player.kills}/${player.deaths}/${player.assists}</td>
+												<td>${player.kills}/<strong style="color: #c6443e;">${player.deaths }</strong>/${player.assists}<br />
+													<c:if test="${player.deaths eq 0 }">
+														<strong>Perfect</strong>
+													</c:if> <fmt:formatNumber value="${player.kdaRatio }"
+														pattern="0.00" />
+														<p style="color: #c6443e;">킬관여 ${player.killInvolvement }%</p>
+												</td>
 												<td><img width="20px" height="20px"
 													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item0}"/>.png" />
 													<img width="20px" height="20px"
@@ -199,7 +281,8 @@
 														<%-- 	<button
 															onclick="window.open('<c:url value = "/lol/viewMatch?gameId="/> + ${player.gameId }','_blank');"
 															type="button" value="게임 조회">상세</button> --%>
-														<input type="submit" value="상세">
+														<button class="glyphicon glyphicon-align-justify"
+															type="submit"></button>
 													</form>
 												</td>
 											</tr>
@@ -308,75 +391,20 @@
 		</div>
 	</div>
 	<!-- /.LoginModal -->
-	<script type="text/javascript"
-		src="https://www.gstatic.com/charts/loader.js"></script>
 
 	<script>
 	
-
-	
-	var box = [];
-	var most = [];
-	var dealingList = [];
-	<c:forEach items="${most}" var="list" varStatus = "status">
-		var id = {championId : "${list.championId}"};
-		var frequency = {frequency : "${list.frequency}"};
-		var win = {win : "${list.win}"};
-		var loss = {loss : "${list.losses}"};
-		<c:forEach items="${list.dealingList}" var="dealingList">
-			var dealing = {deal : "${dealingList}"};
-			dealingList.push(dealing);
-		</c:forEach>
-		most.push(id);
-		most.push(frequency);
-		most.push(win);
-		most.push(loss);
-		most.push(dealingList);
-		dealingList = [];
-		
-		box[${status.index}] = most;
-		most = [];
-	</c:forEach>
-	
-	console.log((box[0])[0]);
-	$("td.idBody1").append();
-	$(document).ready(function () {
-		
-		
-	});
 	
 	
+		<!-- Menu Toggle Script -->
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
 	
-	
-	<!-- Menu Toggle Script --> 
-	$("#menu-toggle").click(function(e) {
-		e.preventDefault();
-		$("#wrapper").toggleClass("toggled");
-	});
-	
-	<!-- Modal Action -->
-	$("#loginModalBtn").click(function() {
-		$("#loginModal").modal();
-	});
-	
-	function numberWithCommas(x) {
-	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
-
-		var result = "${result}";
-		if (result == 'success') {
-			alert("소환사의 정보가 등록되었습니다.");
-		}
-
-		/* var profileIconId = "${summonerVO.profileIconId}";
-		var src = "https://opgg-static.akamaized.net/images/profile_icons/profileIcon"
-				+ profileIconId + ".jpg";
-
-		console.log(profileIconId + " / " + src);
-		$("#srcTag").attr("src", src); */
-
-		$("#submitBtn").on("click", function() {
-			$("#view").submit();
+		<!-- Modal Action -->
+		$("#loginModalBtn").click(function() {
+			$("#loginModal").modal();
 		});
 	</script>
 </body>

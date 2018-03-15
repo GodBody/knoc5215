@@ -17,11 +17,11 @@ public interface LOLService {
 
 	public void insertMatch(MatchReferenceDTO matchReferenceDTO);
 
-	public List<MatchReferenceDTO> getMatchList(int summonerId);
+//	public List<MatchReferenceDTO> getMatchList(int summonerId);
 
 	public List<MatchReferenceDTO> insertMatchInfo(long accountId);
 
-	public PlayerVO[] getMatchInfo(long gameId);
+	public PlayerVO[] getMatchInfo(long gameId, List<TeamStatsDTO> teamStats);
 
 	public List<TeamStatsDTO> getTeamStats(long gameId);
 

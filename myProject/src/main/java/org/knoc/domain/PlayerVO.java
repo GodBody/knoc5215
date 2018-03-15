@@ -3,14 +3,6 @@ package org.knoc.domain;
 public class PlayerVO {
 	private long gameId;
 
-	public long getGameId() {
-		return gameId;
-	}
-
-	public void setGameId(long gameId) {
-		this.gameId = gameId;
-	}
-
 	private String summonerName;
 	private long summonerId;
 	private long accountId;
@@ -34,14 +26,22 @@ public class PlayerVO {
 	private int kills;
 	private int deaths;
 	private int assists;
-	private int visionWardsBoughtInGame;
-	private int wardsPlaced;
-	private int wardsKilled;
-	private int champLevel;
 	private int doubleKills;
 	private int tripleKills;
 	private int quadraKills;
 	private int pentaKills;
+
+	private int killInvolvement;
+
+	// private int multiKill;
+
+	private float kdaRatio;
+
+	private int visionWardsBoughtInGame;
+	private int wardsPlaced;
+	private int wardsKilled;
+	private int champLevel;
+
 	private int perk0;
 	private int perkSubStyle;
 	private int item0;
@@ -53,6 +53,75 @@ public class PlayerVO {
 	private int item6;
 
 	private long ratio;
+
+	// public int getMultiKill() {
+	// return multiKill;
+	// }
+	//
+	// public void setMultiKill() {
+	// if (this.doubleKills != 0 && this.tripleKills == 0 && this.quadraKills == 0
+	// && this.pentaKills == 0)
+	// this.multiKill = 2;
+	// else if (this.tripleKills != 0 && this.quadraKills == 0 && this.pentaKills ==
+	// 0)
+	// this.multiKill = 3;
+	// else if (this.quadraKills != 0 && this.pentaKills == 0)
+	// this.multiKill = 4;
+	// else if (this.pentaKills != 0)
+	// this.multiKill = 5;
+	// else
+	// this.multiKill = 1;
+	//
+	// }
+
+	public void setKdaRatio(float kdaRatio) {
+		this.kdaRatio = kdaRatio;
+	}
+
+	public int getKillInvolvement() {
+		return killInvolvement;
+	}
+
+	public void setKillInvolvement(int killCnt) {
+		// if (killCnt != 0) {
+		// float val = ((float) (this.getKills() + this.getAssists()) / (float)
+		// killCnt);
+		// this.killInvolvement = (float) (Math.round(val * 100) / 100.0);
+		// } else {
+		// this.killInvolvement = 0;
+		// }
+
+		if (killCnt != 0) {
+			float val = ((float) (this.getKills() + this.getAssists()) / (float) killCnt);
+			this.killInvolvement = (int) (Math.round(val * 100));
+		} else {
+			this.killInvolvement = 0;
+		}
+
+	}
+
+	public long getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(long gameId) {
+		this.gameId = gameId;
+	}
+
+	public float getKdaRatio() {
+		return kdaRatio;
+	}
+
+	public void setKdaRatio() {
+
+		if (this.getDeaths() != 0) {
+			float val = (float) (this.getKills() + this.getAssists()) / this.getDeaths();
+			this.kdaRatio = (float) (Math.round(val * 100) / 100.0);
+		} else {
+			float val = (float) ((this.getKills() + this.getAssists()) * 1.2);
+			this.kdaRatio = (float) (Math.round(val * 100) / 100.0);
+		}
+	}
 
 	public int getVisionWardsBoughtInGame() {
 		return visionWardsBoughtInGame;
@@ -78,8 +147,16 @@ public class PlayerVO {
 		return teamId;
 	}
 
-	public void setTeamId(int teamId) {
-		this.teamId = teamId;
+	public void setTeamId(int participantId) {
+
+		// if (participantId <= 5) {
+		// this.teamId = 100;
+		// } else {
+		// this.teamId = 200;
+		// }
+
+		this.teamId = (participantId <= 5) ? 100 : 200;
+
 	}
 
 	public void setPerk0(int perk0) {
@@ -367,12 +444,13 @@ public class PlayerVO {
 				+ ", totalDamageDealtToChampions=" + totalDamageDealtToChampions + ", totalDamageTaken="
 				+ totalDamageTaken + ", totalMinionsKilled=" + totalMinionsKilled + ", neutralMinionsKilled="
 				+ neutralMinionsKilled + ", goldEarned=" + goldEarned + ", kills=" + kills + ", deaths=" + deaths
-				+ ", assists=" + assists + ", visionWardsBoughtInGame=" + visionWardsBoughtInGame + ", wardsPlaced="
-				+ wardsPlaced + ", wardsKilled=" + wardsKilled + ", champLevel=" + champLevel + ", doubleKills="
-				+ doubleKills + ", tripleKills=" + tripleKills + ", quadraKills=" + quadraKills + ", pentaKills="
-				+ pentaKills + ", perk0=" + perk0 + ", perkSubStyle=" + perkSubStyle + ", item0=" + item0 + ", item1="
-				+ item1 + ", item2=" + item2 + ", item3=" + item3 + ", item4=" + item4 + ", item5=" + item5 + ", item6="
-				+ item6 + ", ratio=" + ratio + "]";
+				+ ", assists=" + assists + ", doubleKills=" + doubleKills + ", tripleKills=" + tripleKills
+				+ ", quadraKills=" + quadraKills + ", pentaKills=" + pentaKills + ", killInvolvement=" + killInvolvement
+				+ ", kdaRatio=" + kdaRatio + ", visionWardsBoughtInGame=" + visionWardsBoughtInGame + ", wardsPlaced="
+				+ wardsPlaced + ", wardsKilled=" + wardsKilled + ", champLevel=" + champLevel + ", perk0=" + perk0
+				+ ", perkSubStyle=" + perkSubStyle + ", item0=" + item0 + ", item1=" + item1 + ", item2=" + item2
+				+ ", item3=" + item3 + ", item4=" + item4 + ", item5=" + item5 + ", item6=" + item6 + ", ratio=" + ratio
+				+ "]";
 	}
 
 }

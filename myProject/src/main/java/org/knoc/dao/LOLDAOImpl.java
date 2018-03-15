@@ -57,11 +57,11 @@ public class LOLDAOImpl implements LOLDAO {
 		session.insert(namespace + ".insertMatch", matchReferenceDTO);
 	}
 
-	@Override
-	public List<MatchReferenceDTO> getMatchList(long summonerId) {
-		// TODO Auto-generated method stub
-		return session.selectList(namespace + ".getMatchList", summonerId);
-	}
+//	@Override
+//	public List<MatchReferenceDTO> getMatchList(long summonerId) {
+//		// TODO Auto-generated method stub
+//		return session.selectList(namespace + ".getMatchList", summonerId);
+//	}
 
 	@Override
 	public void insertMatchTableJSON(String json, long gameId) {

@@ -67,7 +67,7 @@
 					<div class="box-primary">
 						<div class="box-header">
 							<!-- menu-toggle -->
-						<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
+							<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
 								Menu</a>
 							<h3 class="box-title">로그인</h3>
 						</div>
@@ -107,8 +107,7 @@
 						</div>
 						<!-- /.box-body -->
 						<div class="box-footer">
-							<span><a href="forgetID">아이디 찾기</a></span> / <span><a
-								href="forgetPW">비밀번호 찾기</a></span><br> <span><a
+							<span><a href="forgetID">아이디 & 비밀번호찾기</a></span><br> <span><a
 								href="register">회원가입</a></span> / <span><a href="naverLogin">네이버
 									계정으로 회원가입</a></span>
 						</div>
@@ -125,19 +124,19 @@
 	<!-- /. wrapper -->
 
 	<script>
-<!-- Menu Toggle Script --> 
-$("#menu-toggle").click(function(e) {
-	e.preventDefault();
-	$("#wrapper").toggleClass("toggled");
-});
-
-<!-- Modal Action -->
-$("#loginModalBtn").click(function() {
-	$("#loginModal").modal();
-});
-	$("#naverBtn").on("click", function() {
-		self.location = "/user/naverLogin";
-	});
-</script>
+		<!-- Menu Toggle Script -->
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	
+		<!-- Modal Action -->
+		$("#loginModalBtn").click(function() {
+			$("#loginModal").modal();
+		});
+		$("#naverBtn").on("click", function() {
+			self.location = "/user/naverLogin";
+		});
+	</script>
 </body>
 </html>
