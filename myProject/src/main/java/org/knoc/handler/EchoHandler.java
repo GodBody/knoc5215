@@ -29,13 +29,14 @@ public class EchoHandler extends TextWebSocketHandler {
 	/**
 	 * 접속과 관련된 Event Method
 	 *
+	 *
 	 * @param WebSocketSession
 	 *            접속한 사용자
 	 */
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		sessionMap.put(session.getId(), session);
-		// connectedUsers.add(session);
+		// connecteddUsers.add(session);
 
 		logger.info(session.getId() + "님이 접속했습니다.");
 		logger.info("연결 IP : " + session.getRemoteAddress().getHostName());

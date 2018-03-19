@@ -11,14 +11,14 @@
 <title>Starter</title>
 
 <!-- jQuery -->
-<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
 <!-- Bootstrap core CSS -->
 <link
 	href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css" />"
 	rel="stylesheet">
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"
-	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <!-- Custom styles for this template -->
 <link href="<c:url value="/resources/css/simple-sidebar.css"/>"
 	rel="stylesheet">
@@ -87,7 +87,7 @@ fileDrop {
 					<div class="box box-primary">
 						<div class="box-header">
 							<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
-					Menu</a>
+								Menu</a>
 							<h3 class="box-title">게시글 수정</h3>
 						</div>
 						<!-- /.box-header -->

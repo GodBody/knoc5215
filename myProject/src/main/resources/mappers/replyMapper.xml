@@ -7,32 +7,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="list" resultType="Reply">
 		select *
-		from Reply
+		from tbl_reply
 		where bno =
 		#{bno}
 		order by rno desc
 	</select>
 
 	<insert id="create">
-		insert into Reply(bno, replytext, replyer)
+		insert into tbl_reply(bno, replytext, replyer)
 		values(#{bno}, #{replytext}, #{replyer})
 	</insert>
 
 	<update id="update">
-		update Reply
+		update tbl_reply
 		set replytext = #{replytext}, updatedate
 		= now()
 		where rno = #{rno}
 	</update>
 
 	<delete id="delete">
-		delete from Reply
+		delete from tbl_reply
 		where rno = #{rno}
 	</delete>
 
 	<select id="listPage" resultType="Reply">
 		select *
-		from Reply
+		from tbl_reply
 		where bno =
 		#{bno}
 		order by rno desc
@@ -41,14 +41,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="count" resultType="int">
 		select count(rno)
-		from Reply
+		from tbl_reply
 		where
 		bno = #{bno}
 	</select>
 	
 	<select id="getBno" resultType="int">
 		select bno 
-		from Reply
+		from tbl_reply
 		where rno = #{rno}
 	</select>
 

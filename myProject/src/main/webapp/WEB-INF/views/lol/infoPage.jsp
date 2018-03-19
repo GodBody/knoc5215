@@ -11,20 +11,21 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Starter</title>
 <!-- jQuery -->
-<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
 <!-- Bootstrap core CSS -->
 <link
 	href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css" />"
 	rel="stylesheet">
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"
-	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <!-- Custom styles for this template -->
 <link href="<c:url value="/resources/css/simple-sidebar.css"/>"
 	rel="stylesheet">
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript"
 	src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+
 <style type="text/css">
 th, td {
 	vertical-align: center;
@@ -253,7 +254,7 @@ table {
 														<strong>Perfect</strong>
 													</c:if> <fmt:formatNumber value="${player.kdaRatio }"
 														pattern="0.00" />
-														<p style="color: #c6443e;">킬관여 ${player.killInvolvement }%</p>
+													<p style="color: #c6443e;">킬관여 ${player.killInvolvement }%</p>
 												</td>
 												<td><img width="20px" height="20px"
 													src="http://opgg-static.akamaized.net/images/lol/item/<c:url value="${player.item0}"/>.png" />
@@ -299,32 +300,25 @@ table {
 									<th class="gameHeader">게임 수</th>
 									<th class="winHeader">승</th>
 									<th class="lossHeader">패</th>
-									<th class="dealHeader">평균딜량</th>
+									<td class="kdaBody1">KDA</td>
+									<th class="dealHeader">딜량</th>
 								</tr>
+								<c:forEach items="${most }" var="most">
+									<tr>
+										<td><img width="30px" height="30px"
+											src="http://z.fow.kr/champ/<c:url value="${most.championId}"/>.png" />
+										<td class="gameBody1">${most.frequency }전</td>
+										<td class="winBody1">${most.win }승</td>
+										<td class="lossBody1">${most.losses }패</td>
+										<td class="kdaBody1"><fmt:formatNumber
+												value="${most.kdaRatio }" pattern="0.00" /></td>
+										<td class="dealBody1"><c:forEach
+												items="${most.dealingList }" var="dealing">
+												${dealing} 
+											</c:forEach></td>
+									</tr>
+								</c:forEach>
 
-								<tr>
-									<td class="idBody1"></td>
-									<td class="gameBody1"></td>
-									<td class="winBody1"></td>
-									<td class="lossBody1"></td>
-									<td class="dealBody1"></td>
-								</tr>
-
-								<tr>
-									<td class="idBody"></td>
-									<td class="gameBody"></td>
-									<td class="winBody"></td>
-									<td class="lossBody"></td>
-									<td class="dealBody"></td>
-								</tr>
-
-								<tr>
-									<td class="idBody"></td>
-									<td class="gameBody"></td>
-									<td class="winBody"></td>
-									<td class="lossBody"></td>
-									<td class="dealBody"></td>
-								</tr>
 							</table>
 						</div>
 						<!--  /.box-footer -->

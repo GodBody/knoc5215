@@ -9,14 +9,14 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Starter</title>
 <!-- jQuery -->
-<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
 <!-- Bootstrap core CSS -->
 <link
 	href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css" />"
 	rel="stylesheet">
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"
-	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <!-- Custom styles for this template -->
 <link href="<c:url value="/resources/css/simple-sidebar.css"/>"
 	rel="stylesheet">
@@ -31,6 +31,13 @@
 </head>
 
 <style type="text/css">
+.fileDrop {
+	width: 80%;
+	height: 100px;
+	border: 1px dotted gray;
+	background-color: lightslategrey;
+	margin: auto;
+}
 </style>
 <body>
 	<div id="wrapper">
@@ -64,7 +71,7 @@
 					<div class="box box-primary">
 						<div class="box-header">
 							<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle
-					Menu</a>
+								Menu</a>
 						</div>
 						<!-- /.box-header -->
 
@@ -114,60 +121,7 @@
 	</div>
 	<!-- /. wrapper -->
 
-	<!-- Login Modal -->
-	<div class="modal fade" id="loginModal" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header" style="padding: 35px 50px;">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4>
-						<span class="glyphicon glyphicon-lock"></span> 로그인
-					</h4>
-				</div>
-				<div class="modal-body" style="padding: 40px 50px;">
-
-					<form action="<c:url value='/user/loginProcess' />" method="post">
-						<div class="form-group">
-							<label for="uid"><span class="glyphicon glyphicon-user"></span>아이디</label>
-							<input type="text" class="form-control" name="uid"
-								placeholder="ID를 입력하세요">
-						</div>
-						<div class="form-group">
-							<label for="upw"><span
-								class="glyphicon glyphicon-eye-open"></span> Password</label> <input
-								type="text" class="form-control" name="upw"
-								placeholder="비밀번호를 입력하세요">
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox" name="useCookie" checked>자동
-								로그인</label>
-						</div>
-						<button type="submit" class="btn btn-success btn-block">
-							<span class="glyphicon glyphicon-off"></span> 로그인
-						</button>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-danger btn-default pull-left"
-						data-dismiss="modal">
-						<span class="glyphicon glyphicon-remove"></span>취소
-					</button>
-					<p>
-						<a href="register">회원가입</a> <a href="naverLogin">네이버로 회원가입</a>
-					</p>
-					<p>
-						<a href="forgetID">아이디 찾기</a> <a href="forgetPW">비밀번호 찾기</a>
-					</p>
-				</div>
-			</div>
-
-		</div>
-	</div>
-	<!-- /.LoginModal -->
-
-
+	
 	<script id="template" type="text/x-handlebars-template">
 <li>
   <span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
@@ -182,33 +136,33 @@
 
 	<script>
 	
-	<!-- Menu Toggle Script --> 
-	$("#menu-toggle").click(function(e) {
-		e.preventDefault();
-		$("#wrapper").toggleClass("toggled");
-	});
+		<!-- Menu Toggle Script -->
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
 	
-	<!-- Modal Action -->
-	$("#loginModalBtn").click(function() {
-		$("#loginModal").modal();
-	});
+		<!-- Modal Action -->
+		$("#loginModalBtn").click(function() {
+			$("#loginModal").modal();
+		});
 		var template = Handlebars.compile($("#template").html());
-
+	
 		$(".fileDrop").on("dragenter dragover", function(event) {
 			event.preventDefault();
 		});
-
+	
 		$(".fileDrop").on("drop", function(event) {
 			event.preventDefault();
-
+	
 			var files = event.originalEvent.dataTransfer.files;
-
+	
 			var file = files[0];
-
+	
 			var formData = new FormData();
-
+	
 			formData.append("file", file);
-
+	
 			$.ajax({
 				url : '/uploadAjax',
 				data : formData,
@@ -217,34 +171,34 @@
 				contentType : false,
 				type : 'POST',
 				success : function(data) {
-
+	
 					var fileInfo = getFileInfo(data);
-
+	
 					var html = template(fileInfo);
-
+	
 					$(".uploadedList").append(html);
 				}
 			});
 		});
-
+	
 		$("#registerForm").submit(
-				function(event) {
-					event.preventDefault();
-
-					var that = $(this);
-
-					var str = "";
-					$(".uploadedList .delbtn").each(
-							function(index) {
-								str += "<input type='hidden' name='files["
-										+ index + "]' value='"
-										+ $(this).attr("href") + "'> ";
-							});
-
-					that.append(str);
-
-					that.get(0).submit();
-				});
+			function(event) {
+				event.preventDefault();
+	
+				var that = $(this);
+	
+				var str = "";
+				$(".uploadedList .delbtn").each(
+					function(index) {
+						str += "<input type='hidden' name='files["
+							+ index + "]' value='"
+							+ $(this).attr("href") + "'> ";
+					});
+	
+				that.append(str);
+	
+				that.get(0).submit();
+			});
 	</script>
 </body>
 </html>

@@ -15,14 +15,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listBoardCount" resultType="int">
 		select count(bno)
 		from
-		Board
+		tbl_board
 		where bno>0
 	</select>
 	
 	<select id="listUpdateCount" resultType="int">
 		select count(bno)
 		from
-		UBoard
+		tbl_uboard
 		where bno>0
 	</select>
 	

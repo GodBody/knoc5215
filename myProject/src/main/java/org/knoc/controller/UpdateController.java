@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/uboard/*")
 public class UpdateController {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(UpdateController.class);
 
 	@Inject
@@ -36,9 +36,9 @@ public class UpdateController {
 	@ResponseBody
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public void update() throws Exception {
-		
+
 		logger.info("into update GET");
-		
+
 		String src = "http://www.leagueoflegends.co.kr/?m=news&cate=update";
 
 		Document doc = Jsoup.connect(src).get();
@@ -49,12 +49,14 @@ public class UpdateController {
 
 		Integer index = 0;
 
+		Map<Integer, UpdateVO> map = new HashMap<>();
+
 		for (Element element : tbody_a) {
 
 			String title = element.getAllElements().text();
 			String link = element.attr("href");
 
-			Map<Integer, UpdateVO> map = new HashMap<>();
+			// Map<Integer, UpdateVO> map = new HashMap<>();
 			UpdateVO vo = new UpdateVO();
 			vo.setTitle(title);
 			vo.setContent(link);
@@ -62,11 +64,12 @@ public class UpdateController {
 			map.put(index++, vo);
 			stack.push(map);
 		}
-
-		int key_index = stack.size() - 1;
-		while (!stack.isEmpty()) {
-			Map<Integer, UpdateVO> map = new HashMap<>();
-			map = stack.pop();
+		int key_index = map.size() - 1;
+		// int key_index = stack.size() - 1;
+		// while (!stack.isEmpty()) {
+		while (!map.isEmpty()) {
+			// Map<Integer, UpdateVO> map = new HashMap<>();
+			// map = stack.pop();
 			updateService.regist(map.get(key_index));
 			key_index--;
 		}
@@ -74,38 +77,6 @@ public class UpdateController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void listUpdate(@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
-
-//		String src = "http://www.leagueoflegends.co.kr/?m=news&cate=update";
-//
-//		Document doc = Jsoup.connect(src).get();
-//
-//		Elements tbody_a = doc.select("tbody a");
-//
-//		Stack<Map<Integer, UpdateVO>> stack = new Stack<>();
-//
-//		Integer index = 0;
-//
-//		for (Element element : tbody_a) {
-//
-//			String title = element.getAllElements().text();
-//			String link = element.attr("href");
-//
-//			Map<Integer, UpdateVO> map = new HashMap<>();
-//			UpdateVO vo = new UpdateVO();
-//			vo.setTitle(title);
-//			vo.setContent(link);
-//
-//			map.put(index++, vo);
-//			stack.push(map);
-//		}
-//
-//		int key_index = stack.size() - 1;
-//		while (!stack.isEmpty()) {
-//			Map<Integer, UpdateVO> map = new HashMap<>();
-//			map = stack.pop();
-//			updateService.regist(map.get(key_index));
-//			key_index--;
-		// }
 
 		model.addAttribute("list", updateService.listSearchCriteria(cri));
 

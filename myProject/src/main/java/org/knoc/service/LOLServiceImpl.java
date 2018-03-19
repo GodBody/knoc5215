@@ -39,14 +39,14 @@ public class LOLServiceImpl implements LOLService {
 	private static Logger logger = LoggerFactory.getLogger(LOLServiceImpl.class);
 
 	private static RestTemplate restTemplate = new RestTemplate();
-
+	// static 제네릭 메소드로 각 타입에 맞는 엔터티에 헤더를 삽입하여 반
 	public static <T> HttpEntity<T> setHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		headers.set("User-Agent",
 				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML,like Gecko) Chrome/64.0.3282.186 Safari/537.36");
 		headers.set("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
-		headers.set("X-Riot-Token", "RGAPI-21c03e2e-9bc7-408d-9558-49df835c5e77");
+		headers.set("X-Riot-Token", "RGAPI-ca2acee2-e428-4b51-b0db-bb7efd548dd2");
 
 		return new HttpEntity<T>(headers);
 
@@ -89,6 +89,8 @@ public class LOLServiceImpl implements LOLService {
 
 		// logger.info("getbody : " + leaguePositionDTO_LIST.length);
 
+		// 배치고사 이전이라면? 길이가 1보다 작기때문에
+		// 언랭 dto를 생성하여 dao에 전
 		if (leaguePositionDTO_LIST.length < 1) {
 			LeaguePositionDTO dto_NULL = new LeaguePositionDTO();
 			dto_NULL.setRank("unranked");
@@ -104,13 +106,12 @@ public class LOLServiceImpl implements LOLService {
 			// logger.info("UN_RANKED DTO : " + dto_NULL.toString());
 			dao.insertSoloRankInfo(dto_NULL);
 		}
-
+		// 배치를 받았다면?
 		else {
 			int index = 0;
 			for (int i = 0; i < leaguePositionDTO_LIST.length; i++) {
-				// logger.info("INDEX[ " + i + " ] = " + leaguePositionDTO_LIST[i].toString());
+					// 솔로랭크 부분만을 추
 				if (leaguePositionDTO_LIST[i].getQueueType().equals("RANKED_SOLO_5x5")) {
-					// logger.info("QueueType : " + leaguePositionDTO_LIST[i].getQueueType());
 					index = i;
 					break;
 				}
@@ -310,6 +311,7 @@ public class LOLServiceImpl implements LOLService {
 
 		HttpEntity<MatchDTO> reqEntity = setHeaders();
 
+		// 전달받은 gameId에 대한 팀 스탯 정보를 추
 		String api = "https://kr.api.riotgames.com/lol/match/v3/matches/" + gameId;
 
 		ResponseEntity<MatchDTO> resEntity = restTemplate.exchange(api, HttpMethod.GET, reqEntity, MatchDTO.class);
@@ -321,24 +323,11 @@ public class LOLServiceImpl implements LOLService {
 			logger.info("teamStats : " + teamStats.get(i).toString());
 		}
 
-		/*
-		 * 
-		 */
-
-		// List<ParticipantIdentityDTO> pIden = match.getParticipantIdentities();
-		//
-		// List<PlayerDTO> player = new ArrayList<>();
-		// for (int i = 0; i < pIden.size(); i++) {
-		// player.add(pIden.get(i).getPlayer());
-		// }
+	
 
 		List<ParticipantDTO> participant = match.getParticipants();
 
-		// List<ParticipantStatsDTO> pStats = new ArrayList<>();
-		// for (int i = 0; i < participant.size(); i++) {
-		// pStats.add(participant.get(i).getStats());
-		// }
-
+		
 		int killCnt = 0;
 		int deathCnt = 0;
 		int assistCnt = 0;

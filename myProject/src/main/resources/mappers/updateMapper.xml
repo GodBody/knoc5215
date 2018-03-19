@@ -7,13 +7,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="list" resultType="UpdateVO">
 		select *
-		from UBoard
-		where bno > 0
+		from tbl_uboard
+		where bno >
+		0
 	</select>
 
 	<insert id="create">
-		insert into UBoard (title, content)
-		values (#{title},
+		insert into tbl_uboard (title, content)
+		values
+		(#{title},
 		#{content})
 	</insert>
 
@@ -21,20 +23,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select
 		bno, title, content, regdate,
 		viewcnt
-		from UBoard
+		from tbl_uboard
 		where bno = #{bno}
 	</select>
 
 	<update id="updateViewCnt">
-		update UBoard set viewcnt = viewcnt + 1
-		where bno =
+		update tbl_uboard set viewcnt = viewcnt + 1
+		where bno
+		=
 		#{bno}
 	</update>
 
 	<select id="listSearch" resultType="UpdateVO">
 <![CDATA[  
   select bno, title, content, regdate, viewcnt
-  from UBoard 
+  from tbl_uboard 
   where bno > 0 
 ]]>
 
@@ -49,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listSearchCount" resultType="int">
 <![CDATA[  
   select count(bno) 
-  from UBoard 
+  from tbl_uboard 
   where bno > 0 
 ]]>
 		<include refid="search"></include>

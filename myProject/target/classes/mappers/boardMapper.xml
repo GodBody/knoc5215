@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.knoc.mapper.BoardMapper">
 
 	<insert id="create">
-		insert into Board (title, content, writer)
+		insert into tbl_board (title, content, writer)
 		values(#{title},#{content}, #{writer})
 	</insert>
 
@@ -15,24 +15,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		bno, title, content, writer,
 		regdate, viewcnt
 		from
-		Board
+		tbl_board
 		where bno = #{bno}
 	</select>
 
 	<update id="update">
-		update Board set title = #{title}, content =
+		update tbl_board set title = #{title}, content =
 		#{content}
 		where bno = #{bno}
 	</update>
 
 	<delete id="delete">
-		delete from Board where bno = #{bno}
+		delete from tbl_board where bno = #{bno}
 	</delete>
 
 	<select id="listAll" resultType="org.knoc.domain.Board">
 		select bno, title, content,
 		writer, regdate, viewcnt
-		from Board
+		from tbl_board
 		where bno>0
 		order by bno desc,
 		regdate desc
@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listPage" resultType="org.knoc.domain.Board">
 		select bno, title, content,
 		writer, regdate, viewcnt
-		from Board
+		from tbl_board
 		where bno>0
 		order by bno desc,
 		regdate desc
@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<![CDATA[
 		select bno, title, content,
 		writer, regdate, viewcnt, replycnt
-		from Board
+		from tbl_board
 		where bno>0
 		order by bno desc,
 		regdate desc
@@ -63,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="countPaging" resultType="int">
 	<![CDATA[
 		select count(bno)
-		from Board
+		from tbl_board
 		where bno>0
 	]]>
 	</select>
@@ -71,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listSearch" resultType="Board">
 <![CDATA[  
   select bno, title, content, writer, regdate, viewcnt,replycnt
-  from Board 
+  from tbl_board 
   where bno > 0 
 ]]>
 
@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listSearchCount" resultType="int">
 <![CDATA[  
   select count(bno) 
-  from Board 
+  from tbl_board 
   where bno > 0 
 ]]>
 		<include refid="search"></include>
@@ -94,35 +94,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<update id="updateReplyCnt">
-		update Board set replycnt = replycnt + #{amount}
+		update tbl_board set replycnt = replycnt + #{amount}
 		where bno = #{bno}
 	</update>
 
 	<update id="updateViewCnt">
-		update Board set viewcnt = viewcnt + 1
+		update tbl_board set viewcnt = viewcnt + 1
 		where bno =
 		#{bno}
 	</update>
 
 	<insert id="addAttach">
-		insert into Attach(fullName, bno) values(#{fullName},
+		insert into tbl_attach(fullName, bno) values(#{fullName},
 		LAST_INSERT_ID())
 	</insert>
 
 	<select id="getAttach" resultType="string">
 		select fullName
-		from Attach
+		from tbl_attach
 		where bno=#{bno}
 		order by regdate
 	</select>
 
 	<delete id="deleteAttach">
-		delete from Attach
+		delete from tbl_attach
 		where bno = #{bno}
 	</delete>
 
 	<insert id="replaceAttach">
-		insert into Attach(fullName, bno) values(#{fullName},
+		insert into tbl_attach(fullName, bno) values(#{fullName},
 		#{bno})
 	</insert>
 
@@ -162,7 +162,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listReply" resultType="Reply">
 		select rno, replytext,
 		replyer, regdate
-		from Reply
+		from tbl_reply
 		where bno = #{bno}
 		order by rno asc
 	</select>

@@ -28,7 +28,7 @@ public class MostChampionUtil {
 		}
 
 		/*
-		 * Most 1 Champion
+		 * Most 2 Champion
 		 */
 
 		int max2 = Integer.MIN_VALUE;
@@ -179,28 +179,7 @@ public class MostChampionUtil {
 
 		}
 
-		// System.out.println("Most 1 ChampionId : " + mode + ", " + max + "번, " + "승수 :
-		// " + win + ", KDA : " + kda + ", 딜량 : "
-		// + modeDeal.toString());
-		// System.out.println("최빈값 : " + mode2 + ", " + max2 + "번, " + "승수 : " + win2 +
-		// ", KDA : " + kda2 + ", 딜량 : "
-		// + modeDeal2.toString());
-		// System.out.println("최빈값 : " + mode3 + ", " + max3 + "번, " + "승수 : " + win3 +
-		// ", KDA : " + kda3 + ", 딜량 : "
-		// + modeDeal3.toString());
-
-		// for (int i = 0; i < modeDeal.length; i++) {
-		// System.out.println(mode + "딜량");
-		// System.out.println(modeDeal[i]);
-		// }
-		// for (int i = 0; i < modeDeal2.length; i++) {
-		// System.out.println(mode2 + "딜량");
-		// System.out.println(modeDeal2[i]);
-		// }
-		// for (int i = 0; i < modeDeal3.length; i++) {
-		// System.out.println(mode3 + "딜량");
-		// System.out.println(modeDeal3[i]);
-		// }
+		
 
 		MostChampionSummaryDTO most = new MostChampionSummaryDTO();
 		most.setChampionId(mode);
