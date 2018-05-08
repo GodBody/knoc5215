@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.knoc</groupId>
-	<artifactId>controller</artifactId>
-	<name>myProject</name>
+	<artifactId>lol-cummunity-springMVC</artifactId>
+	<name>lol-cummunity-springMVC</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
