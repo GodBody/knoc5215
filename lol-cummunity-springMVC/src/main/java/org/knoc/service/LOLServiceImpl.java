@@ -55,7 +55,6 @@ public class LOLServiceImpl implements LOLService {
 
 	@Override
 	public SummonerVO insertUser(String summonerName) throws Exception {
-		// TODO Auto-generated method stub
 
 		String api = "https://kr.api.riotgames.com/lol/summoner/v3/summoners/by-name/";
 		HttpEntity<SummonerDTO> requestEn = setHeaders();
@@ -111,13 +110,11 @@ public class LOLServiceImpl implements LOLService {
 			}
 
 			LeaguePositionDTO positionSolo = leaguePositionDTO_LIST[index];
-			// logger.info("SOLO_RANK DTO : " + dto_SOLO.toString());
 
 			dao.insertSoloRankInfo(positionSolo);
 		}
 
 		SummonerVO summonerVO = dao.selectUserInfo(summonerName);
-		// logger.info("Controller로 보낼 객체 : " + summonerVO.toString());
 
 		return summonerVO;
 
@@ -125,8 +122,6 @@ public class LOLServiceImpl implements LOLService {
 
 	@Override
 	public List<MatchReferenceDTO> insertMatchInfo(long accountId) {
-		// TODO Auto-generated method stub
-		// logger.info("INTO insertMatchInfo SERVICE");
 		String api = "https://kr.api.riotgames.com/lol/match/v3/matchlists/by-account/";
 
 		HttpEntity<MatchListDTO> requestEn = setHeaders();
@@ -152,20 +147,17 @@ public class LOLServiceImpl implements LOLService {
 
 	@Override
 	public void insertSoloRankInfo(LeaguePositionDTO dto_SOLO) {
-		// TODO Auto-generated method stub
 		dao.insertSoloRankInfo(dto_SOLO);
 	}
 
 	@Override
 	public SummonerVO selectUserInfo(String summonerName) {
-		// TODO Auto-generated method stub
 		return dao.selectUserInfo(summonerName);
 
 	}
 
 	@Override
 	public void insertMatch(MatchReferenceDTO matchReferenceDTO) {
-		// TODO Auto-generated method stub
 		dao.insertMatch(matchReferenceDTO);
 	}
 
@@ -339,7 +331,6 @@ public class LOLServiceImpl implements LOLService {
 
 	@Override
 	public void insertMathTableData(long gameId) {
-		// TODO Auto-generated method stub
 		logger.info("INTO insertMatchTableData SERVICE");
 
 		// Get match by match ID.
@@ -374,7 +365,6 @@ public class LOLServiceImpl implements LOLService {
 
 	@Override
 	public PlayerVO getMatchSummory(long gameId, String summonerName) {
-		// TODO Auto-generated method stub
 		logger.info("INTO getMatchSummary...SERVICE");
 
 		// param으로 받은 gameId에 해당하는 game의 전반적인 data를 추출하고
