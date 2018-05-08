@@ -29,14 +29,16 @@
 <img src = "./img/ERD.png" ></img>
 
 ## 전적 검색 기능 사용 방법
+* REST API를 사용하기 위해 Riot 계정으로 Token을 발급받아야 함. (Expire될 경우 갱신)
+* 제 계정을 사용하세요 ( ID : knoc3885 / PW : vlckd123!@ )
 <hr/>
-1. https://developer.riotgames.com/ 접속
+1. https://developer.riotgames.com/ 접속 (Riot-developer 지원 페이지 - REST API 제공)
 <img src = "./img/developer.png" width="400" height="300"></img>
 <hr/>
-2. 로그인 (ID : knoc3885 / PW : vlckd123!@)   지역 korea 선택!!!
+2. 로그인 ( korea 서버 선택 필수 )
 <img src = "./img/로그인.png" width="200" height="300"></img>
 <hr/>
-3. 하단에 captcha 인증 후 regenerate key 눌러서 key 갱신하고 복사
+3. 하단에 Captcha 인증 후 regenerate key 눌러서 갱신한 후 복사.
 <img src = "./img/갱신.png" width="400" height="300"></img>
 <hr/>
 4. src/main/java/org/knoc/service/LOLServiceImpl.java 파일의 상단 setHeaders 메소드의 
