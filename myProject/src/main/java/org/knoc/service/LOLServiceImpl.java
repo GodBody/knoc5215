@@ -2,9 +2,7 @@ package org.knoc.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -46,7 +44,7 @@ public class LOLServiceImpl implements LOLService {
 		headers.set("User-Agent",
 				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML,like Gecko) Chrome/64.0.3282.186 Safari/537.36");
 		headers.set("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
-		headers.set("X-Riot-Token", "RGAPI-ca2acee2-e428-4b51-b0db-bb7efd548dd2");
+		headers.set("X-Riot-Token", "RGAPI-38b1ec53-a9e2-42a9-8b68-d44e950b7b5c");
 
 		return new HttpEntity<T>(headers);
 
@@ -59,13 +57,11 @@ public class LOLServiceImpl implements LOLService {
 	public SummonerVO insertUser(String summonerName) throws Exception {
 		// TODO Auto-generated method stub
 
-		// logger.info("INTO insertUser SERVICE");
 		String api = "https://kr.api.riotgames.com/lol/summoner/v3/summoners/by-name/";
 		HttpEntity<SummonerDTO> requestEn = setHeaders();
 
 		ResponseEntity<SummonerDTO> responseEn = restTemplate.exchange(api + summonerName, HttpMethod.GET, requestEn,
 				SummonerDTO.class);
-		// logger.info("검색된 SummonerDTO : " + responseEn.toString());
 
 		SummonerDTO summonerDTO = responseEn.getBody();
 
@@ -78,7 +74,6 @@ public class LOLServiceImpl implements LOLService {
 		}
 
 		long summonerId = summonerDTO.getId();
-		// logger.info("getId : " + summonerId);
 		String api2 = "https://kr.api.riotgames.com/lol/league/v3/positions/by-summoner/";
 		HttpEntity<LeaguePositionDTO[]> requestEn2 = setHeaders();
 
@@ -87,24 +82,22 @@ public class LOLServiceImpl implements LOLService {
 
 		LeaguePositionDTO[] leaguePositionDTO_LIST = responseEn2.getBody();
 
-		// logger.info("getbody : " + leaguePositionDTO_LIST.length);
 
 		// 배치고사 이전이라면? 길이가 1보다 작기때문에
 		// 언랭 dto를 생성하여 dao에 전
 		if (leaguePositionDTO_LIST.length < 1) {
-			LeaguePositionDTO dto_NULL = new LeaguePositionDTO();
-			dto_NULL.setRank("unranked");
-			dto_NULL.setQueueType("SOLO_unranked");
-			dto_NULL.setWins(0);
-			dto_NULL.setLosses(0);
-			dto_NULL.setLeagueName("unranked");
-			dto_NULL.setPlayerOrTeamName(summonerDTO.getName());
-			dto_NULL.setPlayerOrTeamId(summonerDTO.getId());
-			dto_NULL.setTier("unranked");
-			dto_NULL.setLeaguePoints(0);
+			LeaguePositionDTO leaguePositionDTO = new LeaguePositionDTO();
+			leaguePositionDTO.setRank("unranked");
+			leaguePositionDTO.setQueueType("SOLO_unranked");
+			leaguePositionDTO.setWins(0);
+			leaguePositionDTO.setLosses(0);
+			leaguePositionDTO.setLeagueName("unranked");
+			leaguePositionDTO.setPlayerOrTeamName(summonerDTO.getName());
+			leaguePositionDTO.setPlayerOrTeamId(summonerDTO.getId());
+			leaguePositionDTO.setTier("unranked");
+			leaguePositionDTO.setLeaguePoints(0);
 
-			// logger.info("UN_RANKED DTO : " + dto_NULL.toString());
-			dao.insertSoloRankInfo(dto_NULL);
+			dao.insertSoloRankInfo(leaguePositionDTO);
 		}
 		// 배치를 받았다면?
 		else {
@@ -117,10 +110,10 @@ public class LOLServiceImpl implements LOLService {
 				}
 			}
 
-			LeaguePositionDTO dto_SOLO = leaguePositionDTO_LIST[index];
+			LeaguePositionDTO positionSolo = leaguePositionDTO_LIST[index];
 			// logger.info("SOLO_RANK DTO : " + dto_SOLO.toString());
 
-			dao.insertSoloRankInfo(dto_SOLO);
+			dao.insertSoloRankInfo(positionSolo);
 		}
 
 		SummonerVO summonerVO = dao.selectUserInfo(summonerName);
@@ -137,7 +130,7 @@ public class LOLServiceImpl implements LOLService {
 		String api = "https://kr.api.riotgames.com/lol/match/v3/matchlists/by-account/";
 
 		HttpEntity<MatchListDTO> requestEn = setHeaders();
-		ResponseEntity<MatchListDTO> responseEn = restTemplate.exchange(api + accountId + "/recent", HttpMethod.GET,
+		ResponseEntity<MatchListDTO> responseEn = restTemplate.exchange(api + accountId + "?endIndex=20", HttpMethod.GET,
 				requestEn, MatchListDTO.class);
 		// MatchListDTO안에 있는 List<MatchReferenceDTO>를
 		List<MatchReferenceDTO> matches = responseEn.getBody().getMatches();
@@ -152,14 +145,7 @@ public class LOLServiceImpl implements LOLService {
 			dao.insertMatch(matches.get(i));
 		}
 
-		// List<MatchReferenceDTO> list = dao.getMatchList(accountId);
-
-		// logger.info(matches.size() + " / " + list.size());
-		// for(int i=0; i<matches.size(); i++) {
-		//
-		// logger.info("matches : " + matches.get(i).toString());
-		// logger.info("list : " + list.get(i).toString());
-		// }
+	
 		return matches;
 
 	}
@@ -183,11 +169,7 @@ public class LOLServiceImpl implements LOLService {
 		dao.insertMatch(matchReferenceDTO);
 	}
 
-	// @Override
-	// public List<MatchReferenceDTO> getMatchList(int summonerId) {
-	// // TODO Auto-generated method stub
-	// return dao.getMatchList(summonerId);
-	// }
+	
 
 	@Override
 	public PlayerVO[] getMatchInfo(long gameId, List<TeamStatsDTO> teamStats) {
@@ -203,85 +185,81 @@ public class LOLServiceImpl implements LOLService {
 
 		MatchDTO match = resEntity.getBody();
 
-		List<ParticipantIdentityDTO> pIden = match.getParticipantIdentities();
+		List<ParticipantIdentityDTO> participantIdentityDTO = match.getParticipantIdentities();
 
-		List<PlayerDTO> player = new ArrayList<>();
-		for (int i = 0; i < pIden.size(); i++) {
-			player.add(pIden.get(i).getPlayer());
+		List<PlayerDTO> playerDTO = new ArrayList<>();
+		for (int i = 0; i < participantIdentityDTO.size(); i++) {
+			playerDTO.add(participantIdentityDTO.get(i).getPlayer());
 		}
 
-		// List<TeamStatsDTO> teamStats = match.getTeams();
-		// for (int i = 0; i < teamStats.size(); i++) {
-		// logger.info("teamStats : " + teamStats.get(i).toString());
-		// }
 
 		List<ParticipantDTO> participant = match.getParticipants();
 
-		List<ParticipantStatsDTO> pStats = new ArrayList<>();
+		List<ParticipantStatsDTO> participantStatsDTO = new ArrayList<>();
 		for (int i = 0; i < participant.size(); i++) {
-			pStats.add(participant.get(i).getStats());
+			participantStatsDTO.add(participant.get(i).getStats());
 		}
 
-		PlayerVO[] vo = new PlayerVO[10];
+		PlayerVO[] playerVO = new PlayerVO[10];
 		// 10명의 소환사의 dealingToChampion을 저장하기 위한 array
 		long[] dealingList = new long[10];
 
 		for (int i = 0; i < 10; i++) {
 
-			vo[i] = new PlayerVO();
-			vo[i].setSummonerName(player.get(i).getSummonerName());
-			vo[i].setSummonerId(player.get(i).getSummonerId());
-			vo[i].setAccountId(player.get(i).getAccountId());
-			vo[i].setTeamId(participant.get(i).getTeamId());
+			playerVO[i] = new PlayerVO();
+			playerVO[i].setSummonerName(playerDTO.get(i).getSummonerName());
+			playerVO[i].setSummonerId(playerDTO.get(i).getSummonerId());
+			playerVO[i].setAccountId(playerDTO.get(i).getAccountId());
+			playerVO[i].setTeamId(participant.get(i).getTeamId());
 
-			vo[i].setParticipantId(participant.get(i).getParticipantId());
-			vo[i].setTeamId(vo[i].getParticipantId());
+			playerVO[i].setParticipantId(participant.get(i).getParticipantId());
+			playerVO[i].setTeamId(playerVO[i].getParticipantId());
 
-			vo[i].setWin(participant.get(i).getStats().isWin());
+			playerVO[i].setWin(participant.get(i).getStats().isWin());
 
-			vo[i].setParticipantId(participant.get(i).getParticipantId());
-			vo[i].setHighestAchievedSeasonTier(participant.get(i).getHighestAchievedSeasonTier());
-			vo[i].setChampionId(participant.get(i).getChampionId());
-			vo[i].setSpell1Id(participant.get(i).getSpell1Id());
-			vo[i].setSpell2Id(participant.get(i).getSpell2Id());
-			vo[i].setPerk0(participant.get(i).getStats().getPerk0());
-			vo[i].setPerkSubStyle(participant.get(i).getStats().getPerkSubStyle());
+			playerVO[i].setParticipantId(participant.get(i).getParticipantId());
+			playerVO[i].setHighestAchievedSeasonTier(participant.get(i).getHighestAchievedSeasonTier());
+			playerVO[i].setChampionId(participant.get(i).getChampionId());
+			playerVO[i].setSpell1Id(participant.get(i).getSpell1Id());
+			playerVO[i].setSpell2Id(participant.get(i).getSpell2Id());
+			playerVO[i].setPerk0(participant.get(i).getStats().getPerk0());
+			playerVO[i].setPerkSubStyle(participant.get(i).getStats().getPerkSubStyle());
 
-			vo[i].setTotalDamageDealtToChampions(participant.get(i).getStats().getTotalDamageDealtToChampions());
-			vo[i].setTotalDamageTaken(participant.get(i).getStats().getTotalDamageTaken());
-			vo[i].setTotalMinionsKilled(participant.get(i).getStats().getTotalMinionsKilled());
-			vo[i].setNeutralMinionsKilled(participant.get(i).getStats().getNeutralMinionsKilled());
-			vo[i].setGoldEarned(participant.get(i).getStats().getGoldEarned());
-			vo[i].setChampLevel(participant.get(i).getStats().getChampLevel());
-			vo[i].setKills(participant.get(i).getStats().getKills());
-			vo[i].setDeaths(participant.get(i).getStats().getDeaths());
-			vo[i].setAssists(participant.get(i).getStats().getAssists());
+			playerVO[i].setTotalDamageDealtToChampions(participant.get(i).getStats().getTotalDamageDealtToChampions());
+			playerVO[i].setTotalDamageTaken(participant.get(i).getStats().getTotalDamageTaken());
+			playerVO[i].setTotalMinionsKilled(participant.get(i).getStats().getTotalMinionsKilled());
+			playerVO[i].setNeutralMinionsKilled(participant.get(i).getStats().getNeutralMinionsKilled());
+			playerVO[i].setGoldEarned(participant.get(i).getStats().getGoldEarned());
+			playerVO[i].setChampLevel(participant.get(i).getStats().getChampLevel());
+			playerVO[i].setKills(participant.get(i).getStats().getKills());
+			playerVO[i].setDeaths(participant.get(i).getStats().getDeaths());
+			playerVO[i].setAssists(participant.get(i).getStats().getAssists());
 
-			vo[i].setKdaRatio();
+			playerVO[i].setKdaRatio();
 
-			if (vo[i].getTeamId() == 100) {
-				vo[i].setKillInvolvement(teamStats.get(0).getTotalKills());
+			if (playerVO[i].getTeamId() == 100) {
+				playerVO[i].setKillInvolvement(teamStats.get(0).getTotalKills());
 			} else {
-				vo[i].setKillInvolvement(teamStats.get(1).getTotalKills());
+				playerVO[i].setKillInvolvement(teamStats.get(1).getTotalKills());
 			}
 
-			vo[i].setDoubleKills(participant.get(i).getStats().getDoubleKills());
-			vo[i].setTripleKills(participant.get(i).getStats().getTripleKills());
-			vo[i].setQuadraKills(participant.get(i).getStats().getQuadraKills());
-			vo[i].setPentaKills(participant.get(i).getStats().getPentaKills());
-			vo[i].setItem0(participant.get(i).getStats().getItem0());
-			vo[i].setItem1(participant.get(i).getStats().getItem1());
-			vo[i].setItem2(participant.get(i).getStats().getItem2());
-			vo[i].setItem3(participant.get(i).getStats().getItem3());
-			vo[i].setItem4(participant.get(i).getStats().getItem4());
-			vo[i].setItem5(participant.get(i).getStats().getItem5());
-			vo[i].setItem6(participant.get(i).getStats().getItem6());
-			vo[i].setWardsKilled(participant.get(i).getStats().getWardsKilled());
-			vo[i].setWardsPlaced(participant.get(i).getStats().getWardsPlaced());
-			vo[i].setVisionWardsBoughtInGame(participant.get(i).getStats().getVisionWardsBoughtInGame());
+			playerVO[i].setDoubleKills(participant.get(i).getStats().getDoubleKills());
+			playerVO[i].setTripleKills(participant.get(i).getStats().getTripleKills());
+			playerVO[i].setQuadraKills(participant.get(i).getStats().getQuadraKills());
+			playerVO[i].setPentaKills(participant.get(i).getStats().getPentaKills());
+			playerVO[i].setItem0(participant.get(i).getStats().getItem0());
+			playerVO[i].setItem1(participant.get(i).getStats().getItem1());
+			playerVO[i].setItem2(participant.get(i).getStats().getItem2());
+			playerVO[i].setItem3(participant.get(i).getStats().getItem3());
+			playerVO[i].setItem4(participant.get(i).getStats().getItem4());
+			playerVO[i].setItem5(participant.get(i).getStats().getItem5());
+			playerVO[i].setItem6(participant.get(i).getStats().getItem6());
+			playerVO[i].setWardsKilled(participant.get(i).getStats().getWardsKilled());
+			playerVO[i].setWardsPlaced(participant.get(i).getStats().getWardsPlaced());
+			playerVO[i].setVisionWardsBoughtInGame(participant.get(i).getStats().getVisionWardsBoughtInGame());
 
 			// 해당하는 index의 소환사의 딜량을 array에 저장
-			dealingList[i] = vo[i].getTotalDamageDealtToChampions();
+			dealingList[i] = playerVO[i].getTotalDamageDealtToChampions();
 
 		}
 
@@ -294,14 +272,14 @@ public class LOLServiceImpl implements LOLService {
 		// view에서의 progressbar로
 		// 해당 게임에서의 최대 딜량의 얼마만큼의 딜을 해당 소환사가 넣었는지에 대해 progressbar width를 계산하기 위해
 		// 따로 구성한다
-		for (int i = 0; i < vo.length; i++) {
-			vo[i].setRatio(maxDeal);
+		for (int i = 0; i < playerVO.length; i++) {
+			playerVO[i].setRatio(maxDeal);
 			// vo의 setRatio(long maxDeal)
 			// this.ratio = (long) ((float) this.totalDamageDealtToChampions / maxDeal *
 			// 100);
 		}
 
-		return vo;
+		return playerVO;
 
 	}
 

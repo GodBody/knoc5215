@@ -71,7 +71,7 @@
 		<!-- Page Content -->
 		<div id="page-content-wrapper">
 			<div class="container-fluid">
-				<h1>knoc_PortPolio</h1>
+				<h1>롤 커뮤니티 MainPage</h1>
 				<p>
 					Make sure to keep all page content within the
 					<code>#page-content-wrapper</code>

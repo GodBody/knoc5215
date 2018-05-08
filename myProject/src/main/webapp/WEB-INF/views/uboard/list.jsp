@@ -15,8 +15,11 @@
 <link
 	href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css" />"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
+	<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"
+	rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="<c:url value="/resources/css/simple-sidebar.css"/>"
 	rel="stylesheet">
