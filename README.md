@@ -29,13 +29,13 @@
 <img src = "./img/ERD.png" ></img>
 
 ## 스크린샷
-# 메인
+* 메인
 <img src = "./img/mvc 메인.png" ></img>
-# 자유게시판
+* 자유게시판
 <img src = "./img/mvc 자유게시판.png" ></img>
-# 크롤링 게시판
+* 크롤링 게시판
 <img src = "./img/mvc crawling 게시판.png" ></img>
-# 전적검색 메인
+* 전적검색 메인
 <img src = "./img/1차 전적 검색 메인.png" ></img>
-# 전적검색 상세보기
+* 전적검색 상세보기
 <img src = "./img/1차 전적 검색 상세 분석.png" ></img>
