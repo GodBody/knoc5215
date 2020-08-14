@@ -27,3 +27,15 @@
 
 ## ERD
 <img src = "./img/ERD.png" ></img>
+
+## 스크린샷
+# 메인
+<img src = "./img/mvc메인.png" ></img>
+# 자유게시판
+<img src = "./img/ERD.png" ></img>
+# 크롤링 게시판
+<img src = "./img/ERD.png" ></img>
+# 전적검색 메인
+<img src = "./img/ERD.png" ></img>
+# 전적검색 상세보기
+<img src = "./img/ERD.png" ></img>
